@@ -1,23 +1,54 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+
+import { AppState } from './state/app.state';
+import { selectAccessToken } from './state/auth/auth.selectors';
 
 @Component({
   standalone: true,
   selector: 'app-placeholder',
-  imports: [RouterLink],
+  imports: [CommonModule, MatButtonModule, MatChipsModule],
   template: `
     <section class="mx-auto max-w-3xl px-4 py-10 space-y-4">
       <h2 class="text-2xl font-semibold">App Shop — Placeholder</h2>
       <p class="text-gray-600">Ici viendra l’UI cohérente (login, liste produits, avis...).</p>
-      <nav class="flex gap-3">
-        <button type="button" routerLink="/dev" class="rounded border px-3 py-2 hover:bg-gray-50">
-          → Aller à la zone de tests
+
+      <div class="flex gap-3">
+        <button mat-raised-button color="primary" (click)="go('/app/login')">
+          Login
         </button>
-        <button type="button" routerLink="/" class="rounded border px-3 py-2 hover:bg-gray-50">
-          ← Retour accueil
+
+        <button mat-raised-button color="accent" (click)="go('/app/shop/products')">
+          Products
         </button>
-      </nav>
+
+        <button mat-raised-button color="warn" (click)="go('/app/shop/rating')">
+          Rating
+        </button>
+      </div>
+
+      <div class="mt-4">
+        <mat-chip color="primary" selected *ngIf="token$ | async as t">Connected</mat-chip>
+        <mat-chip color="warn" selected *ngIf="!(token$ | async)">Not Connected</mat-chip>
+      </div>
     </section>
   `,
 })
-export class AppPlaceholderComponent {}
+export class AppPlaceholderComponent {
+  token$!: Observable<string | null>;
+
+  constructor(private router: Router, private store: Store<AppState>) {}
+
+  ngOnInit() {
+    this.token$ = this.store.select(selectAccessToken);
+  }
+
+  go(path: string) {
+    this.router.navigate([path]);
+  }
+}

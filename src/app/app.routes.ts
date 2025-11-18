@@ -13,5 +13,29 @@ export const routes: Routes = [
   { path: 'dev/products', component: DevProductsComponent },
   { path: 'dev/products/:id/rating', component: DevProductRatingComponent },
   { path: 'app', component: AppPlaceholderComponent },
+
+  {
+    path: 'app/login',
+    loadComponent: () =>
+      import('./pages/login-page/login-page.component').then(
+        (m) => m.LoginPageComponent
+      ),
+  },
+  {
+    path: 'app/shop/products',
+    loadComponent: () =>
+      import('./pages/products-page/products-page.component').then(
+        (m) => m.ProductsPageComponent
+      ),
+  },
+
+  {
+    path: 'app/shop/rating',
+    loadComponent: () =>
+      import('./pages/product-rating-page/product-rating-page.component').then(
+        (m) => m.ProductRatingPageComponent
+      ),
+  },
+
   { path: '**', redirectTo: '' },
 ];

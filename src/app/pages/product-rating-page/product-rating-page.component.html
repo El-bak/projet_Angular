@@ -1,0 +1,33 @@
+<p>product-rating-page works!</p>
+<mat-card>
+  <h2>Notes d’un produit</h2>
+  <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Product ID</mat-label>
+      <input matInput type="number" [(ngModel)]="productId" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Rating</mat-label>
+      <mat-select [(ngModel)]="rating">
+        <mat-option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="submitRating()">
+      Send Rating
+    </button>
+
+    <div class="mt-4" *ngIf="loading$ | async"> Sending rating...</div>
+
+    <div class="mt-4" style="color: blue;" *ngIf="localError">
+      {{ localError }}
+    </div>
+
+    <div class="mt-4 text-red-500" *ngIf="error$ | async as err">
+       {{ err }}
+    </div>
+
+    <pre class="mt-4 bg-gray-100 p-3 rounded" *ngIf="response$ | async as res">
+      {{ res | json }}
+    </pre>
+</mat-card>

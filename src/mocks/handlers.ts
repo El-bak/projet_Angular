@@ -53,4 +53,26 @@ export const handlers = [
       { status: 200 },
     );
   }),
+
+  http.post(`${API}/products/:id/rating/`, async ({ params, request }) => {
+  const id = Number(params['id']);
+  const p = products.find((x) => x.id === id);
+  if (!p) return HttpResponse.json({ detail: 'Not found.' }, { status: 404 });
+
+  const body = (await request.json()) as {rating: number}
+  const rating = Number(body.rating ?? 0);
+
+
+  // Ajouter la note dans la liste
+  p.ratings.push({user_id: 0, value: rating});
+
+  return HttpResponse.json(
+    {
+      product_id: id,
+      avg_rating: avgRating(p.ratings),
+      count: p.ratings.length,
+    },
+    { status: 200 },
+  );
+}),
 ];
