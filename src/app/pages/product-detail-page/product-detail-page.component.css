@@ -1,0 +1,35 @@
+.detail-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.detail-card {
+  width: 650px;
+  max-width: 100%;
+  background: #f7f3e9; /* beige clair = Zone 1 */
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #e6e1d5;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Zone Back alignée à droite */
+.back-container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.back-container.right {
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Style des liens Back */
+.link-nav {
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  margin-right: 12px;
+}

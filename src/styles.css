@@ -1,6 +1,24 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #b7d3e1;
+}
+
+/* Bloc beige centré qui contient les boutons et le texte */
+.content-card {
+  background: #f7f3e9;
+  padding: 28px;
+  border-radius: 12px;
+  width: 650px;
+  max-width: 100%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e6e1d5;
+}

@@ -6,6 +6,7 @@ export interface ProductsState {
   results: any[];
   loading: boolean;
   error: string | null;
+  selectedProduct: any | null;   //  AJOUT ICI
   lastQuery: { page?: number; pageSize?: number; minRating?: number; ordering?: string } | null;
 }
 
@@ -14,6 +15,7 @@ export const initialState: ProductsState = {
   results: [],
   loading: false,
   error: null,
+  selectedProduct: null, // Ajout ici
   lastQuery: null,
 };
 
@@ -36,5 +38,26 @@ export const productsReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+
+  on(ProductsActions.loadProductById, (state) => ({
+     ...state,
+    loading: true,
+    error: null,
+    selectedProduct: null
+  })),
+  
+
+  on(ProductsActions.loadProductByIdSuccess, (state, { product }) => ({
+    ...state,
+    loading: false,
+    selectedProduct: product
+  })),
+
+  on(ProductsActions.loadProductByIdFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );
+

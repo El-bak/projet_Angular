@@ -1,0 +1,44 @@
+/* src/app/shop/checkout/step1-summary.component.css */
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+.left {
+  flex: 2;
+}
+.center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+input {
+  width: 50px;
+  text-align: center;
+}
+
+.subtotal {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+button {
+  margin-top: 20px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #1976d2;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1565c0;
+}

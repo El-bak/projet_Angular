@@ -17,20 +17,27 @@ import {
   selectProductsCount,
 } from '../../state/products/products.selectors';
 import { AppState } from '../../state/app.state';
+import { RouterLink } from "@angular/router";
+import { RouterModule } from '@angular/router';
+import { MatChip } from "@angular/material/chips";
+import { selectAccessToken } from '../../state/auth/auth.selectors';
 
 @Component({
   selector: 'app-products-page',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule, 
-    MatCardModule, 
+    FormsModule,
+    MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    ProductsListComponent
-  ],
+    ProductsListComponent,
+    RouterLink,
+    MatChip,
+    RouterModule
+],
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.css'],
 })
@@ -47,7 +54,7 @@ export class ProductsPageComponent {
   products$ = this.store.select(selectProductsList);
   loading$ = this.store.select(selectProductsLoading);
   count$ = this.store.select(selectProductsCount);
-
+  token$ = this.store.select(selectAccessToken);
   
 
   ngOnInit() {
@@ -78,7 +85,6 @@ export class ProductsPageComponent {
   }
 
   onApplyFilters() {
-    this.page = 1;
     this.load();
   }
 }

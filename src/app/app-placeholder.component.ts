@@ -14,7 +14,8 @@ import { selectAccessToken } from './state/auth/auth.selectors';
   selector: 'app-placeholder',
   imports: [CommonModule, MatButtonModule, MatChipsModule],
   template: `
-    <section class="mx-auto max-w-3xl px-4 py-10 space-y-4">
+   <div class="page-container">
+    <section class="content-card mx-auto max-w-3xl px-4 py-10 space-y-4">
       <h2 class="text-2xl font-semibold">App Shop — Placeholder</h2>
       <p class="text-gray-600">Ici viendra l’UI cohérente (login, liste produits, avis...).</p>
 
@@ -37,6 +38,7 @@ import { selectAccessToken } from './state/auth/auth.selectors';
         <mat-chip color="warn" selected *ngIf="!(token$ | async)">Not Connected</mat-chip>
       </div>
     </section>
+   </div>
   `,
 })
 export class AppPlaceholderComponent {

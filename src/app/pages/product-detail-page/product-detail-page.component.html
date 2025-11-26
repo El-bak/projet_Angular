@@ -1,0 +1,25 @@
+<div class="back-container right">
+   <a routerLink="/app/shop/products" class="link-nav">← Produit</a> 
+  </div> 
+  <p>product-detail-page works!</p> 
+  <div class="detail-wrapper"> 
+    <div class="detail-card"> 
+      <div *ngIf="product$ | async as product; else loading"> 
+        <ng-container *ngIf="product; else notFound"> 
+          <h1>{{ product.name }}</h1>
+           <p>Prix : {{ product.price }} €</p> 
+           <p>Note moyenne : {{ product.averageRating ?? 'N/A' }}</p> 
+           <button routerLink="/app/shop/products">Back</button> 
+           <button (click)="addToCart(product, 1)">
+              Ajouter au panier
+           </button>
+          </ng-container> 
+        </div> 
+        <ng-template #loading> 
+          <p>Chargement...</p> 
+        </ng-template> 
+        <ng-template #notFound> 
+          <p>Produit non trouvé 😢</p> 
+        </ng-template> 
+      </div> 
+    </div>

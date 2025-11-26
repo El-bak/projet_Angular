@@ -1,0 +1,27 @@
+<!-- src/app/shop/checkout/step2-address.component.html -->
+<h2>Adresse de livraison</h2>
+
+<form (ngSubmit)="nextStep()">
+  <div>
+    <label>Nom</label>
+    <input type="text" [(ngModel)]="name" name="name" required />
+  </div>
+  <div>
+    <label>Adresse</label>
+    <input type="text" [(ngModel)]="address" name="address" required />
+  </div>
+  <div>
+    <label>Ville</label>
+    <input type="text" [(ngModel)]="city" name="city" required />
+  </div>
+  <div>
+    <label>Code postal</label>
+    <input type="text" [(ngModel)]="postalCode" name="postalCode" required />
+  </div>
+  <div>
+    <label>Pays</label>
+    <input type="text" [(ngModel)]="country" name="country" required />
+  </div>
+
+  <button type="submit">Suivant → Confirmation</button>
+</form>

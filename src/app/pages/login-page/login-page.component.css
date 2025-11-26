@@ -1,0 +1,31 @@
+/* Centrage */
+.login-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 40px;
+}
+
+/* Carte beige claire (Zone 1) */
+.login-card {
+  width: 450px;
+  max-width: 95%;
+  background: #f7f3e9; /* beige clair */
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #e6e1d5;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Texte d’erreur */
+.error {
+  color: red;
+  margin-top: 15px;
+}
+
+/* Loader */
+.loading {
+  color: #333;
+  margin-top: 15px;
+}

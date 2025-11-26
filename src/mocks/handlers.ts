@@ -75,4 +75,51 @@ export const handlers = [
     { status: 200 },
   );
 }),
+  // ─────────────────────────────────────────────
+  // Product details: GET /api/products/:id/
+  // ─────────────────────────────────────────────
+  http.get(`${API}/products/:id/`, async ({ params }) => {
+    const id = Number(params['id']);
+    const product = products.find((p) => p.id === id);
+
+    if (!product) {
+      return HttpResponse.json({ detail: 'Not found' }, { status: 404 });
+    }
+
+    return HttpResponse.json(
+      {
+        ...product,
+        averageRating: avgRating(product.ratings),
+      },
+      { status: 200 },
+    );
+  }),
+
+  // ─────────────────────────────────────────────
+  // Validate cart: POST /api/cart/validate/
+  // ─────────────────────────────────────────────
+  http.post(`${API}/cart/validate/`, async ({ request }) => {
+    const data = await request.json();
+
+    // total fictif pour test
+    return HttpResponse.json(
+      {
+        total: 123.45,
+        currency: 'EUR',
+      },
+      { status: 200 },
+    );
+  }),
+
+  // ─────────────────────────────────────────────
+  // Order creation: POST /api/order/
+  // ─────────────────────────────────────────────
+  http.post(`${API}/order/`, async () => {
+    const orderNumber = 'ORD-' + Math.floor(Math.random() * 100000);
+    return HttpResponse.json(
+      { orderNumber },
+      { status: 200 },
+    );
+  }),
+
 ];

@@ -27,3 +27,9 @@ export const selectProductsLastQuery = createSelector(
   selectProductsState,
   (s) => s?.lastQuery
 );
+
+export const selectSelectedProduct = createSelector(
+  selectProductsState,
+  (s) => s?.selectedProduct ?? null
+);
+

@@ -1,4 +1,16 @@
+<div class="status-chips">
+    <mat-chip class="chip-connected" selected *ngIf="token$ | async">Connected</mat-chip>
+    <mat-chip color="warn" selected *ngIf="!(token$ | async)">Not Connected</mat-chip>
+  </div>
+
+<div class="back-container right">
+  <a routerLink="/app" class="link-nav">← Acceuil</a>
+  <a routerLink="/app/shop/rating" class="link-nav">← Rating</a>
+  <button routerLink="/app" class="btn-back"> Back</button>
+</div>
+
 <p>products-page works!</p>
+
 <mat-card style="max-width:1000px; margin:16px auto; padding:16px;">
   <h2>Liste des produits</h2>
   <div style="display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap;">

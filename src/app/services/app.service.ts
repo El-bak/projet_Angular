@@ -55,4 +55,8 @@ rateProduct(productId: number, rating: number) {
     { rating }
   );
 }
+getProductById(id: number) {
+  return this.http.get(`/products/${id}/`);
+}
+
 }

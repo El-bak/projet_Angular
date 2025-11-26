@@ -1,6 +1,24 @@
-<p>product-rating-page works!</p>
+<div class="status-chips">
+    <mat-chip class="chip-connected" selected *ngIf="token$ | async">Connected</mat-chip>
+    <mat-chip color="warn" selected *ngIf="!(token$ | async)">Not Connected</mat-chip>
+   </div>
+
+<div class="back-container right">
+  <a routerLink="/app" class="link-nav">← Acceuil</a>
+  <a routerLink="/app/shop/products" class="link-nav">← Produit</a>
+  <button routerLink="/app" class="btn-back"> Back</button>
+</div>
+
+
+<div class="rating-container">
+ <p>product-rating-page works!</p>
+
+ 
+<div class="rating-wrapper">
 <mat-card>
+
   <h2>Notes d’un produit</h2>
+
   <mat-form-field appearance="outline" class="w-full mb-3">
       <mat-label>Product ID</mat-label>
       <input matInput type="number" [(ngModel)]="productId" />
@@ -31,3 +49,5 @@
       {{ res | json }}
     </pre>
 </mat-card>
+</div>
+</div>

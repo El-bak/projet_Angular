@@ -36,6 +36,35 @@ export const routes: Routes = [
         (m) => m.ProductRatingPageComponent
       ),
   },
+       // Vien d'etre rajouté
+    {
+    path: 'app/shop/cart',
+    loadComponent: () =>
+      import('./shop/cart/cart-page.component').then(m => m.CartPageComponent)
+  },
 
+  {
+    path: 'app/shop/product/:id',
+    loadComponent: () =>
+      import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailsPageComponent)
+  },
+
+  {
+    path: 'app/shop/checkout/summary',
+    loadComponent: () =>
+      import('./shop/checkout/step1-summary.component').then(m => m.Step1SummaryComponent)
+  },
+  {
+    path: 'app/shop/checkout/address',
+    loadComponent: () =>
+      import('./shop/checkout/step2-address.component').then(m => m.Step2AddressComponent)
+  },
+  {
+    path: 'app/shop/checkout/confirm',
+    loadComponent: () =>
+      import('./shop/checkout/step3-confirm.component').then(m => m.Step3ConfirmComponent)
+  },
+
+  
   { path: '**', redirectTo: '' },
 ];

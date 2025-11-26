@@ -25,6 +25,10 @@ import { ProductsEffects } from './state/products/products.effects';
 import { ratingReducer } from './state/rating/rating.reducer';
 import { RatingEffects } from './state/rating/rating.effects';
 
+import { cartReducer } from './state/cart/cart.reducer';
+import { CartEffects } from './state/cart/cart.effects';
+
+
 
 
 export const appConfig: ApplicationConfig = {
@@ -41,10 +45,11 @@ export const appConfig: ApplicationConfig = {
       auth: authReducer,
       products: productsReducer, 
       rating: ratingReducer,
+      cart: cartReducer,
     }),
 
     // NgRx Effects
-    provideEffects([AuthEffects, ProductsEffects, RatingEffects,   ]),
+    provideEffects([AuthEffects, ProductsEffects, RatingEffects, CartEffects  ]),
 
   ],
 };

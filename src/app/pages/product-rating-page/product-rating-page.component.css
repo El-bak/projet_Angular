@@ -1,3 +1,79 @@
 mat-form-field {
   margin-bottom: 1rem;
 }
+
+.btn-back {
+  background: #f7f3e9;
+  border: 1px solid #e6e1d5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: 0.2s;
+  color: #333;
+}
+
+.btn-back:hover {
+  background: #eee7d8;
+}
+
+.back-container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 16px;
+}
+
+/* Bouton aligné à droite */
+.back-container.right {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 120px;
+}
+
+/* 🔵 Ajout pour réduire et centrer le mat-card */
+.rating-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.rating-wrapper mat-card {
+  width: 650px; /* taille comme ta page products */
+  max-width: 100%;
+  background: #f7f3e9; /* beige claire comme je le voulais */
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #e6e1d5;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Décaler le lien ← Produit vers la gauche */
+.link-nav {
+  /* espace depuis le bord gauche */
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  margin-right: 12px;
+}
+
+.status-chips {
+  margin-bottom: 16px;
+}
+
+.chip-connected {
+  background-color: #f5e7d0 !important; /* beige */
+  color: #333 !important; /* texte lisible */
+  border: 1px solid #e6e1d5;
+  font-weight: 500;
+}
+
+.rating-container {
+  background: #f5e7d0; /* beige foncé*/
+  padding: 28px;
+  border-radius: 12px;
+  width: 650px; /* réduit le bloc */
+  max-width: 90%; /* responsive */
+  margin: 40px auto; /* centre sur la page */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e6e1d5;
+}

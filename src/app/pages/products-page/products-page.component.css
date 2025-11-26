@@ -1,0 +1,49 @@
+.btn-back {
+  background: #f7f3e9;
+  border: 1px solid #e6e1d5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: 0.2s;
+  color: #333;
+}
+
+.btn-back:hover {
+  background: #eee7d8;
+}
+
+.back-container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 16px;
+}
+
+/* Bouton aligné à droite */
+.back-container.right {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 120px;
+}
+
+mat-card {
+  background: #f5e7d0; /*beige foncé*/
+}
+
+.link-nav {
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  margin-right: 12px;
+}
+
+.status-chips {
+  margin-bottom: 16px;
+}
+
+.chip-connected {
+  background-color: #f5e7d0 !important; /* beige */
+  color: #333 !important; /* texte lisible */
+  border: 1px solid #e6e1d5;
+  font-weight: 500;
+}

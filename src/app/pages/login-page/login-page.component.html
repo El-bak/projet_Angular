@@ -1,1 +1,12 @@
-<app-login-form (login)="submit($event)"></app-login-form>
+<div class="login-wrapper">
+ <div class="login-card">
+  <app-login-form (login)="submit($event)"></app-login-form>
+
+  <div *ngIf="loading$ | async" class="loading">
+    Connexion en cours
+  </div>
+  <div *ngIf="error$ | async as err" class="error">
+    {{ err }}
+  </div>
+ </div>
+</div>

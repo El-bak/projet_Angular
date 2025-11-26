@@ -1,0 +1,19 @@
+<!-- src/app/shop/checkout/step3-confirm.component.html -->
+<h2>Confirmation de commande</h2>
+
+<div *ngIf="orderNumber; else summary">
+  <p>Merci pour votre commande !</p>
+  <p>Numéro de commande : <strong>{{ orderNumber }}</strong></p>
+  <button (click)="backToHome()">Retour à l'accueil</button>
+</div>
+
+<ng-template #summary>
+  <div *ngIf="items$ | async as items">
+    <h3>Résumé de votre panier :</h3>
+    <ul>
+      <li *ngFor="let it of items">{{ it.name }} x {{ it.quantity }} → {{ it.price * it.quantity }} €</li>
+    </ul>
+    <p><strong>Total :</strong> {{ total$ | async }} €</p>
+    <button (click)="confirmOrder()">Confirmer la commande</button>
+  </div>
+</ng-template>

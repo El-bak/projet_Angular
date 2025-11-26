@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ProductCardComponent } from './product-card.component';
 
 export interface ProductItem {
@@ -12,11 +13,12 @@ export interface ProductItem {
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, RouterModule, ProductCardComponent],
   template: `
     <div class="grid">
       <app-product-card
         *ngFor="let p of products"
+        [id]="p.id"
         [name]="p.name"
         [price]="p.price"
         [avgRating]="p.avgRating">

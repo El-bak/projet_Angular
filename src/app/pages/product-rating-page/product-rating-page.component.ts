@@ -9,7 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../state/app.state';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import * as RatingActions from '../../state/rating/rating.actions';
 import {
@@ -18,6 +19,8 @@ import {
   selectRatingResponse,
 } from '../../state/rating/rating.selectors';
 
+import { selectAccessToken } from '../../state/auth/auth.selectors';
+import { MatChip } from "@angular/material/chips";
 @Component({
   selector: 'app-product-rating-page',
   standalone: true,
@@ -29,7 +32,10 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-  ],
+    RouterLink,
+    RouterModule,
+    MatChip
+],
   templateUrl: './product-rating-page.component.html',
   styleUrls: ['./product-rating-page.component.css'],
 })
@@ -46,6 +52,8 @@ export class ProductRatingPageComponent {
 
   localError: string | null = null;        // ← AJOUT ❶
 
+  token$!: Observable<string | null>;
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -61,6 +69,8 @@ export class ProductRatingPageComponent {
     this.loading$ = this.store.select(selectRatingLoading);
     this.error$ = this.store.select(selectRatingError);
     this.response$ = this.store.select(selectRatingResponse);
+
+    this.token$ = this.store.select(selectAccessToken);
   }
 
   submitRating() {
