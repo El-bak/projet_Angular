@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectCartCount } from './state/cart/cart.selectors';
@@ -9,7 +9,7 @@ import { AsyncPipe } from '@angular/common';   // ✅ AJOUT IMPORTANT
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, RouterLink, AsyncPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -7,7 +7,7 @@ import { RouterLink } from "@angular/router";
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="card" [routerLink]="['/app/shop/products', id]" style="cursor: pointer;">
+    <div class="card" [routerLink]="['/app/shop/product', id]" style="cursor: pointer;">
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
       <p>Note moyenne : {{ avgRating ?? 'N/A' }}</p>

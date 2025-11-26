@@ -1,5 +1,5 @@
 <div class="back-container right">
-   <a routerLink="/app/shop/products" class="link-nav">← Produit</a> 
+  <button routerLink="/app/shop/products">← Back</button>  
   </div> 
   <p>product-detail-page works!</p> 
   <div class="detail-wrapper"> 
@@ -9,7 +9,7 @@
           <h1>{{ product.name }}</h1>
            <p>Prix : {{ product.price }} €</p> 
            <p>Note moyenne : {{ product.averageRating ?? 'N/A' }}</p> 
-           <button routerLink="/app/shop/products">Back</button> 
+           
            <button (click)="addToCart(product, 1)">
               Ajouter au panier
            </button>
