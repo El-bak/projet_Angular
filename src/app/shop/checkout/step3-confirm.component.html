@@ -1,4 +1,5 @@
 <!-- src/app/shop/checkout/step3-confirm.component.html -->
+<div class="checkout-container">
 <h2>Confirmation de commande</h2>
 
 <div *ngIf="orderNumber; else summary">
@@ -17,3 +18,4 @@
     <button (click)="confirmOrder()">Confirmer la commande</button>
   </div>
 </ng-template>
+</div>

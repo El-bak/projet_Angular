@@ -1,19 +1,24 @@
-<!-- src/app/shop/cart/cart-page.component.html -->
 <div class="cart-page">
   <h2>Votre Panier</h2>
 
   <div *ngIf="items$ | async as items; else emptyCart">
-    <app-cart-item *ngFor="let it of items"
-      [item]="it"
-      (remove)="removeItem(it.productId)"
-      (quantityChange)="updateQuantity(it.productId, $event)">
-    </app-cart-item>
-
-    <div class="subtotal">
-      Sous-total : {{ total$ | async }} €
+    
+    <div class="items-list">
+      <app-cart-item *ngFor="let it of items"
+        [item]="it"
+        (remove)="removeItem(it.productId)"
+        (quantityChange)="updateQuantity(it.productId, $event)">
+      </app-cart-item>
     </div>
 
-    <button routerLink="/app/shop/checkout/summary">Passer à la caisse</button>
+    <div class="subtotal">
+      <span>Total :</span> <strong>{{ total$ | async }} €</strong>
+    </div>
+
+    <button routerLink="/app/shop/checkout/summary" class="checkout-btn">
+      Passer à la caisse
+    </button>
+
   </div>
 
   <ng-template #emptyCart>

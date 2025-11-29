@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductDetailsPageComponent } from './product-detail-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('ProductDetailPage', () => {
   let component: ProductDetailsPageComponent;
@@ -9,7 +12,34 @@ describe('ProductDetailPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductDetailsPageComponent, RouterTestingModule]
+      imports: [ProductDetailsPageComponent, RouterTestingModule],
+       providers: [
+        // Simule un ID dans l'URL : /product/123
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: () => '123',  // ID simulé
+              },
+            },
+          },
+        },
+
+        // Simule NgRx Store
+        provideMockStore({
+          initialState: {
+            products: {
+              selectedProduct: null,
+              loading: false,
+              error: null,
+            },
+            cart: {
+              items: [],
+            },
+          },
+        }),
+      ],
     })
     .compileComponents();
 
