@@ -8,6 +8,7 @@ export interface ProductItem {
   name: string;
   price: number;
   avgRating: number | null;
+  image?: string;
 }
 
 @Component({
@@ -21,7 +22,8 @@ export interface ProductItem {
         [id]="p.id"
         [name]="p.name"
         [price]="p.price"
-        [avgRating]="p.avgRating">
+        [avgRating]="p.avgRating"
+        [image]="p.image">
       </app-product-card>
     </div>
   `,
@@ -32,6 +34,14 @@ export interface ProductItem {
       gap: 16px;
       padding: 10px;
     }
+    .thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
   `]
 })
 export class ProductsListComponent {

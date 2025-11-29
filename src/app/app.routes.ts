@@ -5,6 +5,8 @@ import { DevAuthComponent } from './dev/dev-auth.component';
 import { DevProductsComponent } from './dev/dev-products.component';
 import { DevProductRatingComponent } from './dev/dev-product-rating.component';
 import { AppPlaceholderComponent } from './app-placeholder.component';
+import { authGuard } from './state/auth/auth.guard';
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -23,6 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'app/shop/products',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/products-page/products-page.component').then(
         (m) => m.ProductsPageComponent
@@ -31,6 +34,7 @@ export const routes: Routes = [
 
   {
     path: 'app/shop/rating',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/product-rating-page/product-rating-page.component').then(
         (m) => m.ProductRatingPageComponent
@@ -39,18 +43,21 @@ export const routes: Routes = [
        // Vien d'etre rajouté
     {
     path: 'app/shop/cart',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./shop/cart/cart-page.component').then(m => m.CartPageComponent)
   },
 
   {
     path: 'app/shop/product/:id',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailsPageComponent)
   },
 
   {
     path: 'app/shop/checkout/summary',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./shop/checkout/step1-summary.component').then(m => m.Step1SummaryComponent)
   },
@@ -64,7 +71,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./shop/checkout/step3-confirm.component').then(m => m.Step3ConfirmComponent)
   },
-
   
-  { path: '**', redirectTo: '' },
+
+  { path: '**', redirectTo: '/app', pathMatch: 'full' },
 ];

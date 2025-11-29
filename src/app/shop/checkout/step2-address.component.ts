@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Step2AddressComponent {
   name = '';
+  mail = '';
   address = '';
   city = '';
   postalCode = '';

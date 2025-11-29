@@ -43,6 +43,22 @@ export const handlers = [
     return HttpResponse.json({ count, next: null, previous: null, results }, { status: 200 });
   }),
 
+  // ─────────────────────────────────────────────
+  // Page produit Angular attend GET /app/shop/products
+  // ─────────────────────────────────────────────
+  http.get('/app/shop/products', async () => {
+    return HttpResponse.json(
+      products.map(p => ({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        avgRating: avgRating(p.ratings),
+        image: p.image
+      })),
+      { status: 200 }
+    );
+  }),
+
   // Product rating: GET /api/products/:id/rating/
   http.get(`${API}/products/:id/rating/`, async ({ params }) => {
     const id = Number(params['id']);
@@ -121,5 +137,7 @@ export const handlers = [
       { status: 200 },
     );
   }),
+  
+  
 
 ];

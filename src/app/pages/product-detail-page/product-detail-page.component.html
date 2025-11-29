@@ -1,5 +1,5 @@
 <div class="back-container right">
-  <button routerLink="/app/shop/products">← Back</button>  
+  <button routerLink="/app/shop/products" class="btn-back">Back</button>  
   </div> 
   <p>product-detail-page works!</p> 
   <div class="detail-wrapper"> 
@@ -8,7 +8,7 @@
         <ng-container *ngIf="product; else notFound"> 
           <h1>{{ product.name }}</h1>
            <p>Prix : {{ product.price }} €</p> 
-           <p>Note moyenne : {{ product.averageRating ?? 'N/A' }}</p> 
+           <p>Note sur 5 : {{ product.averageRating ?? 'N/A' }}</p> 
            
            <button (click)="addToCart(product, 1)">
               Ajouter au panier

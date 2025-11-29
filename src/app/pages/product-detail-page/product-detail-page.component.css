@@ -14,6 +14,21 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
+.btn-back {
+  background: #f7f3e9;
+  border: 1px solid #e6e1d5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: 0.2s;
+  color: #333;
+}
+
+.btn-back:hover {
+  background: #eee7d8;
+}
+
 /* Zone Back alignée à droite */
 .back-container {
   width: 100%;

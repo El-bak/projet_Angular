@@ -14,5 +14,15 @@ export const loginFailure = createAction(
   '[Auth] Login Failure',
   props<{ error: string }>()
 );
+// Ajouté
+export const refreshToken = createAction(
+  '[Auth] Refresh Token',
+  props<{ refresh: string }>()
+);
+
+export const refreshTokenSuccess = createAction(
+  '[Auth] Refresh Token Success',
+  props<{ access: string }>()
+);
 
 export const logout = createAction('[Auth] Logout');

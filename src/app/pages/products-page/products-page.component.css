@@ -30,19 +30,12 @@ mat-card {
   background: #f5e7d0; /*beige foncé*/
 }
 
-.link-nav {
-  font-size: 16px;
-  text-decoration: none;
-  color: #333;
-  margin-right: 12px;
-}
-
 .status-chips {
   margin-bottom: 16px;
 }
 
 .chip-connected {
-  background-color: #f5e7d0 !important; /* beige */
+  background-color: #00ff00 !important; /* beige */
   color: #333 !important; /* texte lisible */
   border: 1px solid #e6e1d5;
   font-weight: 500;

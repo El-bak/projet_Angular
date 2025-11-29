@@ -9,8 +9,8 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  access: null,
-  refresh: null,
+  access: localStorage.getItem('access') || null,
+  refresh: localStorage.getItem('refresh') || null,
   loading: false,
   error: null,
 };
@@ -29,6 +29,10 @@ export const authReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(AuthActions.refreshTokenSuccess, (state, { access }) => ({
+    ...state,
+    access,
   })),
   on(AuthActions.logout, () => ({ ...initialState }))
 );

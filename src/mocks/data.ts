@@ -5,6 +5,7 @@ export interface Product {
   created_at: string;
   owner_id: number;
   ratings: { user_id: number; value: number }[];
+  image?: string;
 }
 
 export const products: Product[] = [
@@ -15,6 +16,7 @@ export const products: Product[] = [
     created_at: '2025-01-10T10:00:00Z',
     owner_id: 10,
     ratings: [{ user_id: 2, value: 4 }],
+    image: "/assets/products/stylo_bleu.png"
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ export const products: Product[] = [
     created_at: '2025-02-01T09:30:00Z',
     owner_id: 11,
     ratings: [{ user_id: 3, value: 5 }],
+    image: "/assets/products/cahier_a5.png"
   },
 
   {
@@ -32,6 +35,7 @@ export const products: Product[] = [
     created_at: '2025-02-12T12:00:00Z',
     owner_id: 12,
     ratings: [{ user_id: 4, value: 3 }],
+    image: "/assets/products/classeur_rouge.png"
   },
   {
     id: 4,
@@ -40,6 +44,7 @@ export const products: Product[] = [
     created_at: '2025-03-01T08:45:00Z',
     owner_id: 13,
     ratings: [{ user_id: 2, value: 5 }],
+    image: "/assets/products/crayon_hb.png"
   },
   {
     id: 5,
@@ -48,6 +53,7 @@ export const products: Product[] = [
     created_at: '2025-03-05T07:20:00Z',
     owner_id: 14,
     ratings: [{ user_id: 1, value: 4 }],
+    image: "/assets/products/regle.png"
   },
   {
     id: 6,
@@ -56,6 +62,7 @@ export const products: Product[] = [
     created_at: '2025-03-10T14:10:00Z',
     owner_id: 15,
     ratings: [{ user_id: 3, value: 4 }],
+    image: "/assets/products/gomme_blanche.png"
   },
   {
     id: 7,
@@ -64,6 +71,7 @@ export const products: Product[] = [
     created_at: '2025-03-11T11:00:00Z',
     owner_id: 16,
     ratings: [{ user_id: 6, value: 5 }],
+    image: "/assets/products/surligneur_jaune.png"
   },
   {
     id: 8,
@@ -72,6 +80,7 @@ export const products: Product[] = [
     created_at: '2025-03-12T09:00:00Z',
     owner_id: 17,
     ratings: [{ user_id: 3, value: 3 }],
+    image: "/assets/products/pochette_plastique.png"
   },
   {
     id: 9,
@@ -80,6 +89,7 @@ export const products: Product[] = [
     created_at: '2025-03-15T10:30:00Z',
     owner_id: 18,
     ratings: [{ user_id: 5, value: 4 }],
+    image: "/assets/products/feutre_noir.png"
   },
   {
     id: 10,
@@ -88,6 +98,7 @@ export const products: Product[] = [
     created_at: '2025-03-20T16:00:00Z',
     owner_id: 19,
     ratings: [{ user_id: 7, value: 5 }],
+    image: "/assets/products/bloc_notes.png"
   },
   {
     id: 11,
@@ -96,6 +107,7 @@ export const products: Product[] = [
     created_at: '2025-03-22T12:40:00Z',
     owner_id: 20,
     ratings: [{ user_id: 2, value: 4 }],
+    image: "/assets/products/feuille_a4.png"
   },
   {
     id: 12,
@@ -104,6 +116,7 @@ export const products: Product[] = [
     created_at: '2025-03-25T13:00:00Z',
     owner_id: 21,
     ratings: [{ user_id: 8, value: 5 }],
+    image: "/assets/products/trousse_bleue.png"
   },
   {
     id: 13,
@@ -112,6 +125,7 @@ export const products: Product[] = [
     created_at: '2025-04-01T07:00:00Z',
     owner_id: 10,
     ratings: [{ user_id: 9, value: 3 }],
+    image: "/assets/products/colle_baton.png"
   },
   {
     id: 14,
@@ -120,6 +134,7 @@ export const products: Product[] = [
     created_at: '2025-04-03T08:00:00Z',
     owner_id: 11,
     ratings: [{ user_id: 1, value: 4 }],
+    image: "/assets/products/ruban_adhesif.png"
   },
   {
     id: 15,
@@ -128,6 +143,7 @@ export const products: Product[] = [
     created_at: '2025-04-05T10:20:00Z',
     owner_id: 12,
     ratings: [{ user_id: 3, value: 5 }],
+    image: "/assets/products/stylo_rouge.png"
   },
   {
     id: 16,
@@ -136,6 +152,7 @@ export const products: Product[] = [
     created_at: '2025-04-10T14:00:00Z',
     owner_id: 13,
     ratings: [{ user_id: 6, value: 4 }],
+    image: "/assets/products/feutres_couleur_pack10.png"
   },
   {
     id: 17,
@@ -144,6 +161,7 @@ export const products: Product[] = [
     created_at: '2025-04-12T12:30:00Z',
     owner_id: 14,
     ratings: [{ user_id: 5, value: 3 }],
+    image: "/assets/products/pinceau_fin.png"
   },
   {
     id: 18,
@@ -152,6 +170,7 @@ export const products: Product[] = [
     created_at: '2025-04-15T11:10:00Z',
     owner_id: 15,
     ratings: [{ user_id: 8, value: 5 }],
+    image: "/assets/products/palette_aquarelle.png"
   },
   {
     id: 19,
@@ -160,6 +179,7 @@ export const products: Product[] = [
     created_at: '2025-04-18T09:40:00Z',
     owner_id: 16,
     ratings: [{ user_id: 2, value: 4 }],
+    image: "/assets/products/marqueur_effacable.png"
   },
   {
     id: 20,
@@ -168,5 +188,6 @@ export const products: Product[] = [
     created_at: '2025-04-20T15:00:00Z',
     owner_id: 17,
     ratings: [{ user_id: 9, value: 4 }],
+    image: "/assets/products/tampon_encreur.png"
   },
 ];

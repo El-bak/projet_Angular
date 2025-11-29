@@ -14,9 +14,9 @@ type Story = StoryObj<ProductsListComponent>;
 export const Default: Story = {
   args: {
     products: [
-      { id: 1, name: 'Stylo Bleu', price: 2.5, avgRating: 4 },
-      { id: 2, name: 'Cahier A5', price: 3.9, avgRating: 5 },
-      { id: 3, name: 'Gomme Blanche', price: 0.9, avgRating: 3 },
+      { id: 1, name: 'Stylo Bleu', price: 2.5, avgRating: 4, image:"" },
+      { id: 2, name: 'Cahier A5', price: 3.9, avgRating: 5, image:"" },
+      { id: 3, name: 'Gomme Blanche', price: 0.9, avgRating: 3, image:"" },
     ],
   },
 };

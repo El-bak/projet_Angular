@@ -1,6 +1,6 @@
 <!-- src/app/shop/cart/cart-page.component.html -->
 <div class="cart-page">
-  <h2>Panier</h2>
+  <h2>Votre Panier</h2>
 
   <div *ngIf="items$ | async as items; else emptyCart">
     <app-cart-item *ngFor="let it of items"

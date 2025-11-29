@@ -1,10 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [App, RouterTestingModule],
+       providers: [
+        provideMockStore({
+          initialState: {
+            auth: {
+              access: null,
+              refresh: null,
+              loading: false,
+              error: null,
+            },
+            cart: {
+              items: [],
+            },
+          },
+        }),                     // <-- Fix NgRx _Store
+      ],
     }).compileComponents();
   });
 

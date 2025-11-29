@@ -3,7 +3,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectCartCount } from './state/cart/cart.selectors';
-import { AsyncPipe } from '@angular/common';   // ✅ AJOUT IMPORTANT
+import { AsyncPipe } from '@angular/common';   // AJOUT IMPORTANT
 
 
 @Component({

@@ -8,9 +8,15 @@ import { RouterLink } from "@angular/router";
   imports: [CommonModule, RouterLink],
   template: `
     <div class="card" [routerLink]="['/app/shop/product', id]" style="cursor: pointer;">
+      
+      <img *ngIf="image"
+            [src]="image"
+            class="thumb"
+            alt="{{name}}" />
+
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
-      <p>Note moyenne : {{ avgRating ?? 'N/A' }}</p>
+      <p>Note sur 5 : {{ avgRating ?? 'N/A' }}</p>
     </div>
   `,
   styles: [`
@@ -25,7 +31,7 @@ import { RouterLink } from "@angular/router";
     
       .card:hover {
         transform: translateY(-3px);
-        box-shadow: O 4px 10px rgba(0,0,0,0,.15);
+        box-shadow: 0 4px 10px rgba(0,0,0,0,.15);
       }
     }
     h3 {
@@ -36,6 +42,15 @@ import { RouterLink } from "@angular/router";
       margin: 4px 0;
       color: #555;
     }
+     
+    .thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
   `]
 })
 export class ProductCardComponent {
@@ -43,4 +58,5 @@ export class ProductCardComponent {
   @Input() name!: string;
   @Input() price!: number;
   @Input() avgRating: number | null = null;
+  @Input() image?: string = "";
 }

@@ -6,7 +6,9 @@ import { environment } from './environments/environment';
 async function main() {
   if (environment.useMsw) {
     const { worker } = await import('./mocks/browser');
-    await worker.start({ serviceWorker: { url: '/mockServiceWorker.js' } });
+    await worker.start({ serviceWorker: { url: '/mockServiceWorker.js' },  
+    onUnhandledRequest: 'bypass'
+    });
   }
   await bootstrapApplication(App, appConfig).catch((err) => console.error(err));
 }
