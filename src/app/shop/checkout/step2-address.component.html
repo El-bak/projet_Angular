@@ -1,33 +1,95 @@
 <!-- src/app/shop/checkout/step2-address.component.html -->
+<div class="back-container">
+<button class="back-btn" routerLink="/app/shop/checkout/summary">← Back</button>
+</div>
 <div class="checkout-container">
-<h2>Adresse de livraison</h2>
+  <h2>Adresse de livraison</h2>
 
-<form (ngSubmit)="nextStep()">
-  <div>
-    <label>Nom</label>
-    <input type="text" [(ngModel)]="name" name="name" required />
-  </div>
-  <div>
-    <label>Mail</label>
-    <input type="text" [(ngModel)]="mail" name="mail" required />
-  </div>
-  <div>
-    <label>Adresse</label>
-    <input type="text" [(ngModel)]="address" name="address" required />
-  </div>
-  <div>
-    <label>Ville</label>
-    <input type="text" [(ngModel)]="city" name="city" required />
-  </div>
-  <div>
-    <label>Code postal</label>
-    <input type="text" [(ngModel)]="postalCode" name="postalCode" required />
-  </div>
-  <div>
-    <label>Pays</label>
-    <input type="text" [(ngModel)]="country" name="country" required />
-  </div>
+  <form #f="ngForm" (ngSubmit)="nextStep()" novalidate>
 
-  <button type="submit">Suivant → Confirmation</button>
-</form>
+    <!-- NOM -->
+    <div>
+      <label>Nom</label>
+      <input type="text"
+             [(ngModel)]="name"
+             name="name"
+             required
+             #nameField="ngModel">
+      <div class="error" *ngIf="nameField.invalid && nameField.touched">
+        Le nom est obligatoire.
+      </div>
+    </div>
+
+    <!-- MAIL -->
+    <div>
+      <label>Mail</label>
+      <input type="email"
+             [(ngModel)]="mail"
+             name="mail"
+             required
+             email
+             #mailField="ngModel">
+      <div class="error" *ngIf="mailField.invalid && mailField.touched">
+        Veuillez entrer un email valide.
+      </div>
+    </div>
+
+    <!-- ADRESSE -->
+    <div>
+      <label>Adresse</label>
+      <input type="text"
+             [(ngModel)]="address"
+             name="address"
+             required
+             #addressField="ngModel">
+      <div class="error" *ngIf="addressField.invalid && addressField.touched">
+        L'adresse est obligatoire.
+      </div>
+    </div>
+
+    <!-- VILLE -->
+    <div>
+      <label>Ville</label>
+      <input type="text"
+             [(ngModel)]="city"
+             name="city"
+             required
+             #cityField="ngModel">
+      <div class="error" *ngIf="cityField.invalid && cityField.touched">
+        La ville est obligatoire.
+      </div>
+    </div>
+
+    <!-- CODE POSTAL -->
+    <div>
+      <label>Code postal</label>
+      <input type="text"
+             [(ngModel)]="postalCode"
+             name="postalCode"
+             required
+             pattern="^[0-9]{5}$"
+             #postalField="ngModel">
+      <div class="error" *ngIf="postalField.invalid && postalField.touched">
+        Code postal invalide (5 chiffres).
+      </div>
+    </div>
+
+    <!-- PAYS -->
+    <div>
+      <label>Pays</label>
+      <input type="text"
+             [(ngModel)]="country"
+             name="country"
+             required
+             #countryField="ngModel">
+      <div class="error" *ngIf="countryField.invalid && countryField.touched">
+        Le pays est obligatoire.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="f.invalid">
+      Suivant → Confirmation
+    </button>
+
+  </form>
 </div>

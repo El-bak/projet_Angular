@@ -43,3 +43,25 @@ h2 {
 .checkout-btn:hover {
   background-color: #bb8958;
 }
+
+.back-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.back-btn {
+  background: #f7f3e9;
+  border: 1px solid #d1c7b8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: inline-block;
+  transition: 0.2s;
+  color: #333;
+}
+
+.back-btn:hover {
+  background: #e9dfcf;
+}

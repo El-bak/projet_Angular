@@ -7,11 +7,12 @@ import { selectCartItems, selectCartTotal } from '../../state/cart/cart.selector
 import { Observable } from 'rxjs';
 import { CartItem } from '../../state/cart/cart.reducer';
 import * as CartActions from '../../state/cart/cart.actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-step3-confirm',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './step3-confirm.component.html',
   styleUrls: ['./step3-confirm.component.css']
 })

@@ -7,7 +7,12 @@
   <button routerLink="/app" class="btn-back"> Back</button>
 </div>
 
+
 <p>products-page works!</p>
+
+<div class="toast" *ngIf="showToast">
+  🛒 Produit ajouté au panier !
+</div>
 
 <mat-card style="max-width:1000px; margin:16px auto; padding:16px;">
   <h2>Liste des produits</h2>
@@ -40,7 +45,7 @@
     <button mat-raised-button color="primary" (click)="onApplyFilters()">Apply</button>
   </div>
 
-  <app-products-list [products]="(products$ | async) ?? []"></app-products-list>
+  <app-products-list [products]="(products$ | async) ?? []" (add)="addToCart($event)"></app-products-list>
 
 
   <div style="display:flex; gap:8px; margin-top:16px; align-items:center;">

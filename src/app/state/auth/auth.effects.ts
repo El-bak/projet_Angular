@@ -14,26 +14,28 @@ export class AuthEffects {
   // 1) LOGIN
   // ---------------------------
   login$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.login),
-      mergeMap(({ username, password }) =>
-        this.api.login(username, password).pipe(
-          map((response) =>
-            AuthActions.loginSuccess({
-              access: response.access,
-              refresh: response.refresh,
-            })
-          ),
-          catchError((err) =>
-            of(
-              AuthActions.loginFailure({
-                error: err?.message ?? 'Login failed',
-              })
-            )
-          )
-        )
-      )
-    )
+  this.actions$.pipe(
+    ofType(AuthActions.login),
+    mergeMap(({ username, password }) => {
+
+      // 🔥 Vérification simple (mode DEMO)
+      if (username === 'Demo' && password === 'Demo') {
+        return of(
+          AuthActions.loginSuccess({
+            access: 'fake-access-token',
+            refresh: 'fake-refresh-token'
+          })
+        );
+      }
+
+      // ❌ Identifiants invalides
+      return of(
+        AuthActions.loginFailure({
+          error: 'Identifiants incorrects.'
+        })
+      );
+    })
+   )
   );
 
   // ---------------------------

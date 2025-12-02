@@ -3,13 +3,15 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectCartCount } from './state/cart/cart.selectors';
-import { AsyncPipe } from '@angular/common';   // AJOUT IMPORTANT
+import { AsyncPipe, CommonModule } from '@angular/common';   // AJOUT IMPORTANT
+import { selectIsAuthenticated } from './state/auth/auth.selectors';
+import * as AuthActions from './state/auth/auth.actions';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, AsyncPipe],
+  imports: [RouterOutlet, RouterLink, AsyncPipe, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -20,4 +22,12 @@ export class App {
 
   // 🛒 Observable du nombre d’items dans le panier
   cartCount$: Observable<number> = this.store.select(selectCartCount);
+
+  // 🔐 Auth observable
+  isAuth$: Observable<boolean> = this.store.select(selectIsAuthenticated);
+
+  // 🚪 Déconnexion
+  logout() {
+    this.store.dispatch(AuthActions.logout());
+  }
 }

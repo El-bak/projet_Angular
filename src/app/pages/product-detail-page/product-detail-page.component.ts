@@ -40,7 +40,12 @@ export class ProductDetailsPageComponent implements OnInit {
    ngOnInit() {
     this.store.dispatch(ProductsActions.loadProductById({ id: this.productId }));
    }
+  showToast = false;
   addToCart(product: any, qty = 1) {
     this.store.dispatch(CartActions.addItem({ product, quantity: qty }));
+  
+    // Affiche le toast pendant 2 secondes
+    this.showToast = true;
+    setTimeout(() => (this.showToast = false), 2000);  
   }
 }

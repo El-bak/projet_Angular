@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
 
@@ -7,7 +7,8 @@ import { RouterLink } from "@angular/router";
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="card" [routerLink]="['/app/shop/product', id]" style="cursor: pointer;">
+    
+    <div class="card">
       
       <img *ngIf="image"
             [src]="image"
@@ -16,7 +17,33 @@ import { RouterLink } from "@angular/router";
 
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
-      <p>Note sur 5 : {{ avgRating ?? 'N/A' }}</p>
+      <div class="badge new" *ngIf="isNew">Nouveauté</div>
+      <div class="badge stock" *ngIf="inStock">En stock</div>
+
+      <div class="rating-block" *ngIf="avgRating !== null">
+    <div class="stars">
+      <ng-container *ngFor="let s of [1,2,3,4,5]">
+        <span class="star" [class.filled]="s <= avgRating">★</span>
+      </ng-container>
+    </div>
+
+    <p class="rating-info">
+      {{ avgRating | number:'1.1-1' }}/5
+    </p>
+  </div>
+
+  <p *ngIf="avgRating === null">Note : N/A</p>
+   
+  <button class="details-btn"
+        [routerLink]="['/app/shop/product', id]"
+        (click)="$event.stopPropagation()">
+  Voir les détails
+</button>
+
+  <button class="add-btn" (click)="add.emit()" (click)="$event.stopPropagation()">
+    Ajouter au panier
+  </button>
+
     </div>
   `,
   styles: [`
@@ -26,7 +53,7 @@ import { RouterLink } from "@angular/router";
       padding: 12px;
       width: 220px;
       background: #f7f3e9;  /*beige claire*/ 
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
       transition: transform 0.2s, box-shadow 0.2s;
     
       .card:hover {
@@ -51,6 +78,89 @@ import { RouterLink } from "@angular/router";
       margin-bottom: 10px;
     }
 
+    .rating-block {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .star {
+      font-size: 18px;
+      color: #ccc; /* gris vide */
+    }
+
+    .star.filled {
+      color: #f5a623; /* orange Amazon */
+    }
+
+    .rating-info {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .add-btn {
+      margin-top: 8px;
+      width: 75%;
+      padding: 8px;
+      background: #d4a574;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: blqck;
+      transition: 0.2s;
+    }
+
+    .add-btn:hover {
+      background: #d4a574;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .badge.new {
+       background: #ff4081; /* rose */ 
+    }
+    
+    .badge.stock {
+      background: #4caf50; /* vert */
+    }
+
+    .card {
+      position: relative;
+    }
+    
+    .details-btn {
+      margin-top: 8px;
+      width: 75%;
+      padding: 8px;
+      background: #6d9ac4; /* bleu doux */
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: black;
+      transition: 0.2s;
+    }
+
+    .details-btn:hover {
+      background: #5b88b0;
+    }
+
   `]
 })
 export class ProductCardComponent {
@@ -59,4 +169,11 @@ export class ProductCardComponent {
   @Input() price!: number;
   @Input() avgRating: number | null = null;
   @Input() image?: string = "";
+
+  @Output() add = new EventEmitter<void>();
+  
+  /*permettant de savoir si il y'a en stock*/ 
+  @Input() isNew?: boolean;
+  @Input() inStock?: boolean;
+
 }

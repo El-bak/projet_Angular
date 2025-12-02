@@ -1,5 +1,9 @@
 <!-- src/app/shop/checkout/step1-summary.component.html -->
- <div class="checkout-container">
+<div class="back-container">
+<button class="back-btn" routerLink="/app/shop/cart">← Back</button>
+</div>
+
+<div class="checkout-container">
 <h2>Résumé du panier</h2>
 
 <div *ngIf="items$ | async as items; else emptyCart">

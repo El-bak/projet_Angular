@@ -33,14 +33,14 @@ button {
   margin-top: 20px;
   padding: 8px 12px;
   border: none;
-  background-color: #1976d2;
+  background-color: #d4a574;
   color: white;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #1565c0;
+  background-color: #d4a574;
 }
 
 .checkout-container {
@@ -50,4 +50,26 @@ button:hover {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.back-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.back-btn {
+  background: #f7f3e9;
+  border: 1px solid #d1c7b8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: inline-block;
+  transition: 0.2s;
+  color: #333;
+}
+
+.back-btn:hover {
+  background: #e9dfcf;
 }

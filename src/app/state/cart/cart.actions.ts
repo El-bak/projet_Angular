@@ -1,8 +1,10 @@
 import { createAction, props } from '@ngrx/store';
+import { Product } from '../../../mocks/data';
+
 
 export const addItem = createAction(
   '[Cart] Add Item',
-  props<{ product: { id: number; name: string; price: number }; quantity?: number }>()
+  props<{ product: Product; quantity?: number }>()
 );
 
 export const removeItem = createAction(

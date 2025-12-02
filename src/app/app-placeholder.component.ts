@@ -24,13 +24,6 @@ import { selectAccessToken } from './state/auth/auth.selectors';
           Login
         </button>
 
-        <button mat-raised-button color="accent" (click)="go('/app/shop/products')">
-          Products
-        </button>
-
-        <button mat-raised-button color="warn" (click)="go('/app/shop/rating')">
-          Rating
-        </button>
       </div>
 
       <div class="mt-4">
@@ -53,4 +46,5 @@ export class AppPlaceholderComponent {
   go(path: string) {
     this.router.navigate([path]);
   }
+
 }

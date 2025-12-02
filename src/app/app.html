@@ -4,11 +4,17 @@
     <a routerLink="/app" class="text-sm">Acceuil</a>
     <a routerLink="/app/shop/products" class="text-sm">Produit</a>
     <a routerLink="/app/shop/rating" class="text-sm">Rating</a>
+    
+     <!-- ⭐⭐⭐ Bouton Logout visible uniquement si connecté -->
+    <button *ngIf="isAuth$ | async"  (click)="logout()"
+            class="text-sm px-3 py-1 bg-brown-500 text-black rounded">Logout
+  </button>
 
     <!-- Badge du panier -->
     <a routerLink="/app/shop/cart" class="text-sm">
       🛒 Panier ({{ cartCount$ | async }})
     </a>
+    
   </nav>
 </header>
 <main class="p-4">

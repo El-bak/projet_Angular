@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductCardComponent } from './product-card.component';
@@ -9,6 +9,8 @@ export interface ProductItem {
   price: number;
   avgRating: number | null;
   image?: string;
+  isNew?: boolean;
+  inStock?: boolean;
 }
 
 @Component({
@@ -23,8 +25,11 @@ export interface ProductItem {
         [name]="p.name"
         [price]="p.price"
         [avgRating]="p.avgRating"
-        [image]="p.image">
-      </app-product-card>
+        [image]="p.image"
+        [isNew]="p.isNew"
+        [inStock]="p.inStock"
+        (add)="add.emit(p)"
+      ></app-product-card>
     </div>
   `,
   styles: [`
@@ -41,9 +46,9 @@ export interface ProductItem {
       object-fit: cover;
       margin-bottom: 10px;
     }
-
   `]
 })
 export class ProductsListComponent {
   @Input() products: ProductItem[] = [];
+  @Output() add = new EventEmitter<ProductItem>();
 }

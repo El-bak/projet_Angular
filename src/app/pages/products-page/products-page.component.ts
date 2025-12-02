@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -16,11 +16,15 @@ import {
   selectProductsLoading,
   selectProductsCount,
 } from '../../state/products/products.selectors';
+
 import { AppState } from '../../state/app.state';
 import { RouterLink } from "@angular/router";
 import { RouterModule } from '@angular/router';
 import { MatChip } from "@angular/material/chips";
 import { selectAccessToken } from '../../state/auth/auth.selectors';
+import { map } from 'rxjs/operators';
+import * as CartActions from '../../state/cart/cart.actions';
+
 
 @Component({
   selector: 'app-products-page',
@@ -37,25 +41,43 @@ import { selectAccessToken } from '../../state/auth/auth.selectors';
     RouterLink,
     MatChip,
     RouterModule
-],
+  ],
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.css'],
 })
 export class ProductsPageComponent {
-  // filters
   page = 1;
   pageSize = 10;
   minRating: number | null = null;
   ordering = '';
 
- store = inject(Store<AppState>);
-  
-   // Observables
-  products$ = this.store.select(selectProductsList);
+  store = inject(Store<AppState>);
+
+  // ⭐⭐ → Ici on calcule la moyenne des notes
+  products$ = this.store.select(selectProductsList).pipe(
+    map(products =>
+      products.map(p => {
+        const ratings = p.ratings || [];
+
+        const avg =
+  ratings.length > 0
+    ? ratings.reduce((sum: number, r: { value: number }) => sum + r.value, 0) / ratings.length
+    : null;
+
+
+        return {
+          ...p,
+          avgRating: avg,
+          isNew: p.isNew ?? false,      // ou une règle réelle
+          inStock: p.inStock ?? false     // ou une règle réelle
+        };
+      })
+    )
+  );
+
   loading$ = this.store.select(selectProductsLoading);
   count$ = this.store.select(selectProductsCount);
   token$ = this.store.select(selectAccessToken);
-  
 
   ngOnInit() {
     this.load();
@@ -86,5 +108,15 @@ export class ProductsPageComponent {
 
   onApplyFilters() {
     this.load();
+  }
+  
+  showToast = false;
+
+  addToCart(product: any) {
+    this.store.dispatch(CartActions.addItem({ product, quantity: 1}));
+
+     this.showToast = true;
+
+  setTimeout(() => (this.showToast = false), 1500);
   }
 }

@@ -1,16 +1,57 @@
 <div class="back-container right">
+
   <button routerLink="/app/shop/products" class="btn-back">Back</button>  
   </div> 
+
   <p>product-detail-page works!</p> 
+
+  <!-- TOAST NOTIFICATION -->
+<div class="toast" *ngIf="showToast">
+  🛒 Produit ajouté au panier !
+</div>
+
   <div class="detail-wrapper"> 
+    
     <div class="detail-card"> 
       <div *ngIf="product$ | async as product; else loading"> 
+
+       <div class="stock" *ngIf="product.inStock">
+        En Stock
+       </div>
+       <div class="stock out" *ngIf="product.inStock === false">
+        Indisponible
+       </div>
+        
         <ng-container *ngIf="product; else notFound"> 
+       
+       <div class="img-zoom">   
+        <img 
+          *ngIf="product.image"
+          [src]="product.image"
+          [alt]="product.name"
+          class="product-image"
+        />
+        </div> 
+
           <h1>{{ product.name }}</h1>
            <p>Prix : {{ product.price }} €</p> 
-           <p>Note sur 5 : {{ product.averageRating ?? 'N/A' }}</p> 
+
+            <div class="rating-block" *ngIf="product.averageRating !== null">
+          <div class="stars">
+            <ng-container *ngFor="let s of [1,2,3,4,5]">
+              <span class="star" [class.filled]="s <= product.averageRating">★</span>
+            </ng-container>
+          </div>
+          <p class="rating-info">
+            {{ product.averageRating | number:'1.1-1' }}/5
+            ({{ product.ratings?.length }} avis)
+          </p>
+        </div>
+        <p class="description" *ngIf="product.description">
+          {{ product.description }}
+        </p>
            
-           <button (click)="addToCart(product, 1)">
+           <button class="add-btn" (click)="addToCart(product, 1)">
               Ajouter au panier
            </button>
           </ng-container> 

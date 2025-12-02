@@ -6,6 +6,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  image?: string;
 }
 
 export interface CartState {
@@ -41,7 +42,7 @@ export const cartReducer = createReducer(
         it.productId === product.id ? { ...it, quantity: it.quantity + quantity } : it
       );
     } else {
-      items = [...state.items, { productId: product.id, name: product.name, price: product.price, quantity }];
+      items = [...state.items, { productId: product.id, name: product.name, price: product.price, quantity, image: product.image }];
     }
     return compute(items);
   }),
