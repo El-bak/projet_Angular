@@ -112,7 +112,7 @@ export const products: Product[] = [
   {
     id: 9,
     name: 'Feutre Noir',
-    price: 2.0,
+    price: 2,
     created_at: '2025-03-15T10:30:00Z',
     owner_id: 18,
     ratings: [{ user_id: 5, value: 4 }],
@@ -136,7 +136,7 @@ export const products: Product[] = [
   {
     id: 11,
     name: 'Feuilles A4',
-    price: 4.0,
+    price: 4,
     created_at: '2025-03-22T12:40:00Z',
     owner_id: 20,
     ratings: [{ user_id: 2, value: 4 }],

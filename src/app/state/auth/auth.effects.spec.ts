@@ -25,7 +25,11 @@ describe('AuthEffects', () => {
       ],
     });
 
-    effects = TestBed.inject(AuthEffects);
+    api.login.calls.reset();
+    api.refreshToken.calls.reset();
+    
+    effects = TestBed.inject(AuthEffects)
+
   });
 
   // -------------------------

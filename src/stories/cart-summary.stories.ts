@@ -1,22 +1,20 @@
-// src/stories/CartSummary.stories.ts
 import { Meta, StoryObj } from '@storybook/angular';
 import { CartSummaryComponent } from '../app/shop/cart/cart-summary.component';
 
 const meta: Meta<CartSummaryComponent> = {
-  title: 'Shop/CartSummary',
+  title: 'Cart/CartSummary',
   component: CartSummaryComponent,
 };
 
 export default meta;
-
 type Story = StoryObj<CartSummaryComponent>;
 
-export const Default: Story = {
+export const Example: Story = {
   args: {
     items: [
-      { name: 'Café', quantity: 2, price: 12 },
-      { name: 'Capsules', quantity: 1, price: 8.5 }
+      { name: 'PC portable', price: 250, quantity: 1 },
+      { name: 'USB-C Cable', price: 19, quantity: 2 },
     ],
-    total: 32.5,
-  }
+    total: 288,
+  },
 };

@@ -1,66 +1,23 @@
-// src/stories/ProductDetails.stories.ts
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { ProductDetailsPageComponent } from '../app/pages/product-detail-page/product-detail-page.component';
-import { provideMockStore } from '@ngrx/store/testing';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { of } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
+import { Meta, StoryObj } from '@storybook/angular';
+import { ProductDetailsComponent } from '../app/ui/product-details.component';
 
-const meta: Meta<ProductDetailsPageComponent> = {
-  title: 'Shop/ProductDetails',
-  component: ProductDetailsPageComponent,
+const fn = () => console.log('action fired');
 
-  decorators: [
-    moduleMetadata({
-      imports: [CommonModule, RouterLink, MatButtonModule],
-      providers: [
-        // ⭐ Mock du ActivatedRoute
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              paramMap: {
-                get: () => '1' // Simule /product/1
-              }
-            },
-            paramMap: of({
-              get: () => '1'
-            })
-          }
-        },
-
-        // ⭐ Mock NgRx Store
-        provideMockStore({
-          initialState: {
-            products: {
-              selectedProduct: {
-                id: 1,
-                name: 'Café Premium',
-                price: 12.99,
-                description: 'Un café d’exception.',
-                image: 'https://picsum.photos/400',
-                ratings: [
-                  { user_id: 1, value: 4 },
-                  { user_id: 2, value: 5 }
-                ],
-                inStock: true
-              },
-              loading: false,
-              error: null
-            },
-            cart: {
-              items: []
-            }
-          }
-        })
-      ]
-    })
-  ]
+const meta: Meta<ProductDetailsComponent> = {
+  title: 'Product/ProductDetails',
+  component: ProductDetailsComponent,
+  args: {
+    name: 'PC portable ',
+    price: 250,
+    avgRating: 4,
+    description: 'PC portable pour travaille avec 8 GB de Memory, 16 GB de RAM, OS Windows 11, état de la batterie : neuf',
+    image: '/assets/products/pc_portable_bureau.png',
+    add: fn,
+  },
 };
 
 export default meta;
 
-type Story = StoryObj<ProductDetailsPageComponent>;
+type Story = StoryObj<ProductDetailsComponent>;
 
 export const Default: Story = {};
