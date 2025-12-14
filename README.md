@@ -22,11 +22,13 @@ Fonctionnalités principales
 
 Page Login avec username/password (demo/demo)
 
-Appel vers POST /api/auth/token/
+Appel vers POST /api/auth/token/ (mocké via MSW)
 
 Stockage des tokens access + refresh dans NgRx
 
 Affichage de l’état connecté dans l’UI (“Connected / Not Connected”)
+
+Bouton Logout visible uniquement si connecté
 
 2. Liste des produits
 
@@ -49,11 +51,107 @@ Appel POST de notation
 
 Affichage du résultat + erreurs éventuelles
 
-5. Architecture NgRx
+4. Panier / Shopping Cart (NgRx)
+
+Slice NgRx state/cart
+
+Structure :
+
+- items[]
+- totalPrice
+- count
+
+Actions :
+
+- addItem
+- removeItem
+- updateQuantity
+- clearCart
+
+Sélecteurs :
+
+- selectCartItems
+- selectCartTotal
+- selectCartCount
+
+Badge panier dans le header
+
+Page panier :
+
+- Liste des produits
+- Quantité modifiable
+- Suppression d'un item
+- Sous-total affiché
+
+5. Checkout Flow (3 étapes)
+
+Checkout multi-étapes :
+
+- Summary (récapitulatif du panier)
+- Address (formulaire utilisateur)
+- Confirmation (validation finale)
+
+Navigation controlée entre les étapes
+
+Validation de commande mockée
+
+6. Persistence (LocalStorage)
+
+Synchronisation du panier
+
+NgRx Store <-> LocalStorage
+
+Restauration automatique du panier au refresh
+
+7. Wishlist (Bonus)
+
+Ajout / retrait de produits en wishlist
+
+Slice NgRx wishlist
+
+Badge dynamique dans le header
+
+Page Wishlist dédiée :
+
+- Affichage des produits
+- Retrait de la wishlist
+- Ajout direct au panier
+
+Persistence via LocalStorage
+
+8. Notification (Toast)
+
+Toast pour page produit
+
+Toast global via ToastService
+
+Notifications lors de :
+
+- Ajout à la wishlist
+- Retrait de la wishlist
+- Ajout au panier depuis la wishlist
+
+Toast affiché au niveau de l'application (AppComponent)
+
+9. Notation des produits
+
+Appel GET /api/products/:id/rating/
+
+Saisie du productId + sélection de la note
+
+Appel POST de notation
+
+Gestion des erreurs et affichage du résultat
+
+10. Architecture NgRx
 
 state/auth : login, tokens, loading, errors
 
 state/products : liste paginée, metadata, loading, errors
+
+state/cart : panier, total, persistence
+
+state/wishlist : favoris
 
 state/rating : rating GET/POST (optionnel mais implémenté)
 
@@ -73,15 +171,15 @@ RatingEffects → loadRating + submitRating
 
 Regroupés dans app.config.ts.
 
-6. UI & Design
+11. UI & Design
 
 Angular Material (buttons, inputs, cards, select, snackbars)
 
 Mise en page simple & responsive
 
-Messages de chargement et erreurs visibles
+Messages de chargement, erreurs visibles et notifications.
 
-3. Lancer Storybook
+12. Lancer Storybook
 
 npm run storybook
 
@@ -97,6 +195,12 @@ Storybook contient au moins 3 stories :
 - ProductsList
 
 - LoginForm (avec actions/controls)
+
+- CartItem
+
+- CartSummary
+
+- ProductDetails
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
