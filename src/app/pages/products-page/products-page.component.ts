@@ -24,7 +24,7 @@ import { MatChip } from "@angular/material/chips";
 import { selectAccessToken } from '../../state/auth/auth.selectors';
 import { map } from 'rxjs/operators';
 import * as CartActions from '../../state/cart/cart.actions';
-
+import * as WishlistActions from '../../state/wishlist/wishlist.actions';
 
 @Component({
   selector: 'app-products-page',
@@ -119,4 +119,15 @@ export class ProductsPageComponent {
 
   setTimeout(() => (this.showToast = false), 1500);
   }
+
+  toggleWishlist(product: { id: number }) {
+  this.store.dispatch(
+    WishlistActions.toggleWishlist({ productId: product.id })
+  );
+
+  this.showToast = true;
+
+  setTimeout(() => (this.showToast = false), 1500);
+ }
+
 }

@@ -1,22 +1,31 @@
 <header class="p-4 border-b flex items-center justify-between">
   <strong>My Shop</strong>
   <nav class="flex items-center gap-4">
-    <a routerLink="/app" class="text-sm">Acceuil</a>
-    <a routerLink="/app/shop/products" class="text-sm">Produit</a>
-    <a routerLink="/app/shop/rating" class="text-sm">Rating</a>
+    <a routerLink="/app" class="text-sm">🏠 Acceuil</a>
+    <a routerLink="/app/shop/products" class="text-sm">📦 Produit</a>
+    <a routerLink="/app/shop/rating" class="text-sm">⭐ Rating</a>
     
-     <!-- ⭐⭐⭐ Bouton Logout visible uniquement si connecté -->
+     <!--  Bouton Logout visible uniquement si connecté -->
     <button *ngIf="isAuth$ | async"  (click)="logout()"
             class="text-sm px-3 py-1 bg-brown-500 text-black rounded">Logout
   </button>
+    <button routerLink="/app/shop/wishlist">
+    ❤️ Wishlist ({{ wishlistCount$ | async }})
+    </button>
 
     <!-- Badge du panier -->
     <a routerLink="/app/shop/cart" class="text-sm">
       🛒 Panier ({{ cartCount$ | async }})
     </a>
+
+    
+   
+
     
   </nav>
 </header>
 <main class="p-4">
   <router-outlet></router-outlet>
 </main>
+
+ <app-toast></app-toast>

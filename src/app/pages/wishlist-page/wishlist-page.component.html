@@ -1,0 +1,23 @@
+<div class="back-container">
+  <button class="back-btn" routerLink="/app/shop/products">
+    ← Back
+  </button>
+</div>
+
+<div class="wishlist-wrapper">
+  
+  <h2>❤️ Ma Wishlist</h2>
+
+  <ng-container *ngIf="products$ | async as products; else empty">
+    <app-products-list
+      [products]="products"
+      [showRemove]="true"
+      (add)="addToCart($event)"
+      (toggleWishlist)="removeFromWishlist($event.id)">
+    </app-products-list>
+  </ng-container>
+
+  <ng-template #empty>
+    <p>Votre wishlist est vide.</p>
+  </ng-template>
+</div>

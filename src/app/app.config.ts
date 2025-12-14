@@ -27,6 +27,8 @@ import { RatingEffects } from './state/rating/rating.effects';
 
 import { cartReducer } from './state/cart/cart.reducer';
 import { CartEffects } from './state/cart/cart.effects';
+import { couponReducer } from './state/coupon/coupon.reducer';
+import { wishlistMetaReducer, wishlistReducer } from './state/wishlist/wishlist.reducer';
 
 
 
@@ -46,6 +48,8 @@ export const appConfig: ApplicationConfig = {
       products: productsReducer, 
       rating: ratingReducer,
       cart: cartReducer,
+      coupon: couponReducer,
+      wishlist: wishlistMetaReducer(wishlistReducer),
     }),
 
     // NgRx Effects

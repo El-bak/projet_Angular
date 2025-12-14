@@ -72,6 +72,11 @@ export const routes: Routes = [
       import('./shop/checkout/step3-confirm.component').then(m => m.Step3ConfirmComponent)
   },
   
+  {
+  path: 'app/shop/wishlist',
+  loadComponent: () =>
+    import('./pages/wishlist-page/wishlist-page.component').then(m => m.WishlistPageComponent)
+ },
 
   { path: '**', redirectTo: '/app', pathMatch: 'full' },
 ];

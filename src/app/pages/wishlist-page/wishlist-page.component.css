@@ -1,0 +1,8 @@
+.wishlist-wrapper {
+  max-width: 1400px;
+  margin: 40px auto;
+  background: #e9dfcf; /* ✅ beige foncé visible */
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}

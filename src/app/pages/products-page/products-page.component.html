@@ -45,7 +45,7 @@
     <button mat-raised-button color="primary" (click)="onApplyFilters()">Apply</button>
   </div>
 
-  <app-products-list [products]="(products$ | async) ?? []" (add)="addToCart($event)"></app-products-list>
+  <app-products-list [products]="(products$ | async) ?? []" (add)="addToCart($event)" (toggleWishlist)="toggleWishlist($event)"></app-products-list>
 
 
   <div style="display:flex; gap:8px; margin-top:16px; align-items:center;">

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-product-card',
@@ -17,6 +18,11 @@ import { RouterLink } from "@angular/router";
 
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
+
+      <button class="heart-btn" (click)="toggleWishlist.emit(id)">
+      ❤️
+      </button>
+
       <div class="badge new" *ngIf="isNew">Nouveauté</div>
       <div class="badge stock" *ngIf="inStock">En stock</div>
 
@@ -44,7 +50,15 @@ import { RouterLink } from "@angular/router";
     Ajouter au panier
   </button>
 
-    </div>
+  <button
+  *ngIf="showRemove"
+  class="remove-btn"
+  (click)="toggleWishlist.emit(id)">
+     🗑 Retirer
+  </button>
+
+
+</div>
   `,
   styles: [`
     .card {
@@ -161,6 +175,30 @@ import { RouterLink } from "@angular/router";
       background: #5b88b0;
     }
 
+    .heart-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+    }
+
+    .remove-btn {
+      margin-top: 6px;
+      width: 75%;
+      padding: 6px;
+      background: #c0392b;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background: #a93226;
+    }
+
+
   `]
 })
 export class ProductCardComponent {
@@ -175,5 +213,17 @@ export class ProductCardComponent {
   /*permettant de savoir si il y'a en stock*/ 
   @Input() isNew?: boolean;
   @Input() inStock?: boolean;
+  @Output() toggleWishlist = new EventEmitter<number>();   // ⬅ à ajouter
+  @Output() addToCart = new EventEmitter<void>();
+  @Input() showRemove = false;
+
+  constructor(private toast: ToastService) {}
+
+toggle() {
+  this.toggleWishlist.emit(this.id);
+  this.toast.show('Produit ajouté à la wishlist ❤️', 'success');
+}
+
+
 
 }

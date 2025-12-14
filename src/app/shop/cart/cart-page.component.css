@@ -65,3 +65,11 @@ h2 {
 .back-btn:hover {
   background: #e9dfcf;
 }
+
+.coupon-box {
+  margin-top: 14px;
+  padding: 10px;
+  background: #f7f3e9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
