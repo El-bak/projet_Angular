@@ -15,12 +15,17 @@
     <div class="detail-card"> 
       <div *ngIf="product$ | async as product; else loading"> 
 
-       <div class="stock" *ngIf="product.inStock">
-        En Stock
-       </div>
-       <div class="stock out" *ngIf="product.inStock === false">
-        Indisponible
-       </div>
+       <p *ngIf="stockStatus$ | async as status"
+   class="stock"
+   [class.low]="status === 'low'"
+   [class.out]="status === 'out'">
+
+  {{ status === 'out'
+      ? 'Rupture de stock'
+      : status === 'low'
+        ? 'Stock faible'
+        : 'En stock' }}
+</p>
         
         <ng-container *ngIf="product; else notFound"> 
        
@@ -50,10 +55,77 @@
         <p class="description" *ngIf="product.description">
           {{ product.description }}
         </p>
-           
-           <button class="add-btn" (click)="addToCart(product, 1)">
-              Ajouter au panier
+        <app-reviews-list
+          [reviews]="reviews$ | async"
+          [loading]="(loadingReviews$ | async) ?? false">
+        </app-reviews-list>
+
+        <p class="error" *ngIf="reviewsError$ | async as err">
+          {{ err }}
+        </p>
+
+        <div class="review-form" *ngIf="isLoggedIn$ | async; else loginHint">
+          <h3>Laisser un avis</h3>
+
+  <!-- ⭐ Rating -->
+  <div class="rating-input">
+    <mat-icon
+      *ngFor="let s of [1,2,3,4,5]"
+      (click)="rating = s"
+      [class.active]="s <= rating">
+      star
+    </mat-icon>
+  </div>
+
+  <!-- Commentaire -->
+  <textarea
+    [(ngModel)]="comment"
+    rows="3"
+    placeholder="Votre avis..."
+    required>
+  </textarea>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="submitReview()"
+    [disabled]="!rating || !comment">
+    Envoyer
+  </button>
+</div>
+
+<ng-template #loginHint>
+  <p class="login-hint">
+    Connectez-vous pour laisser un avis.
+  </p>
+</ng-template>
+           <button
+             mat-stroked-button
+             color="warn"
+             class="wishlist-btn"
+             (click)="toggleWishlist(product.id)"
+>
+             <mat-icon>
+               {{ (isInWishlist$ | async) ? 'favorite' : 'favorite_border' }}
+             </mat-icon>
+
+             {{ (isInWishlist$ | async)
+                 ? 'Déjà dans la wishlist'
+                 : 'Ajouter à la wishlist'
+            }}
            </button>
+
+           <br>
+           
+           <button
+             class="add-btn"
+             [disabled]="(stockStatus$ | async) === 'out'"
+             (click)="addToCart(product, 1)">
+             Ajouter au panier
+           </button>
+
           </ng-container> 
         </div> 
         <ng-template #loading> 

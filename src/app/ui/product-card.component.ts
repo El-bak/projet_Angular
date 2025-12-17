@@ -19,12 +19,13 @@ import { ToastService } from '../services/toast.service';
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
 
-      <button class="heart-btn" (click)="toggleWishlist.emit(id)">
-      ❤️
+      <button class="heart-btn" (click)="toggle()">
+      {{ isInWishlist ? '❤️' : '🤍' }}
       </button>
 
-      <div class="badge new" *ngIf="isNew">Nouveauté</div>
-      <div class="badge stock" *ngIf="inStock">En stock</div>
+      <div class="badge stock ok" *ngIf="stockStatus === 'ok'">En stock</div>
+      <div class="badge stock low" *ngIf="stockStatus === 'low'">Stock faible</div>
+      <div class="badge stock out" *ngIf="stockStatus === 'out'">Rupture</div>
 
       <div class="rating-block" *ngIf="avgRating !== null">
     <div class="stars">
@@ -46,9 +47,12 @@ import { ToastService } from '../services/toast.service';
   Voir les détails
 </button>
 
-  <button class="add-btn" (click)="add.emit()" (click)="$event.stopPropagation()">
-    Ajouter au panier
-  </button>
+  <button
+  class="add-btn"
+  [disabled]="stockStatus === 'out'"
+  (click)="add.emit(); $event.stopPropagation()">
+  Ajouter au panier
+</button>
 
   <button
   *ngIf="showRemove"
@@ -198,6 +202,11 @@ import { ToastService } from '../services/toast.service';
       background: #a93226;
     }
 
+    .badge.stock.ok { background: #4caf50; }
+    .badge.stock.low { background: #ff9800; }
+    .badge.stock.out { background: #f44336; }
+
+
 
   `]
 })
@@ -214,8 +223,11 @@ export class ProductCardComponent {
   @Input() isNew?: boolean;
   @Input() inStock?: boolean;
   @Output() toggleWishlist = new EventEmitter<number>();   // ⬅ à ajouter
-  @Output() addToCart = new EventEmitter<void>();
   @Input() showRemove = false;
+  @Input() isInWishlist = false;
+  @Input() stockStatus?: 'ok' | 'low' | 'out';
+
+
 
   constructor(private toast: ToastService) {}
 

@@ -4,20 +4,33 @@
   </button>
 </div>
 
-<div class="wishlist-wrapper">
-  
-  <h2>❤️ Ma Wishlist</h2>
+<mat-card class="wishlist-card">
 
-  <ng-container *ngIf="products$ | async as products; else empty">
-    <app-products-list
-      [products]="products"
-      [showRemove]="true"
-      (add)="addToCart($event)"
-      (toggleWishlist)="removeFromWishlist($event.id)">
-    </app-products-list>
-  </ng-container>
+  <mat-card-title>
+    ❤️ Ma Wishlist
+  </mat-card-title>
 
-  <ng-template #empty>
-    <p>Votre wishlist est vide.</p>
-  </ng-template>
-</div>
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+
+    <ng-container *ngIf="products$ | async as products; else empty">
+
+      <app-products-list
+        [products]="products"
+        [showRemove]="true"
+        (add)="addToCart($event)"
+        (toggleWishlist)="removeFromWishlist($event.id)">
+      </app-products-list>
+
+    </ng-container>
+
+    <ng-template #empty>
+      <p class="empty">
+        Votre wishlist est vide.
+      </p>
+    </ng-template>
+
+  </mat-card-content>
+
+</mat-card>

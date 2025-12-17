@@ -4,6 +4,8 @@ import * as AuthActions from './auth.actions';
 import { AppService } from '../../services/app.service';
 import { catchError, map, mergeMap, switchMap, tap, of } from 'rxjs';
 import { Router } from '@angular/router';
+import  * as UserActions  from '../user/user.actions';
+
 
 export class AuthEffects {
   private actions$ = inject(Actions);
@@ -104,4 +106,12 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+
+  loadUserAfterLogin$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(AuthActions.loginSuccess),
+    map(() => UserActions.loadUserProfile())
+  )
+);
+
 }

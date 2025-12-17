@@ -1,0 +1,88 @@
+<div class="profile-wrapper">
+
+  <!-- PROFIL -->
+  <mat-card class="profile-card" *ngIf="profile$ | async as profile">
+
+  <mat-card-title>Mon profil</mat-card-title>
+
+  <form [formGroup]="form">
+
+    <mat-card-content>
+
+      <p><strong>Username :</strong> {{ profile.username }}</p>
+      <p><strong>Email :</strong> {{ profile.email }}</p>
+      <p><strong>Nom complet :</strong> {{ profile.fullName }}</p>
+
+      <h3>Préférences</h3>
+
+      <mat-checkbox formControlName="newsletter">
+        Recevoir la newsletter
+      </mat-checkbox>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Note minimale par défaut</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          max="5"
+          formControlName="defaultMinRating"
+        />
+      </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        class="save-btn"
+        (click)="save()"
+        [disabled]="loading$ | async"
+      >
+        Enregistrer
+      </button>
+    </mat-card-actions>
+
+  </form>
+
+</mat-card>
+
+
+  <!-- COMMANDES -->
+  <mat-card class="profile-card orders-card" *ngIf="orders$ | async as orders">
+
+    <mat-card-title>Mes commandes</mat-card-title>
+
+    <mat-card-content>
+
+      <p *ngIf="orders.length === 0">
+        Aucune commande pour le moment.
+      </p>
+
+      <mat-list *ngIf="orders.length > 0">
+        <mat-list-item *ngFor="let order of orders">
+          
+          <div class="order-info">
+            <strong>#{{ order.id }}</strong> — {{ order.total }} €
+            <br />
+            <small>
+              {{ order.createdAt | date }} • {{ order.status }}
+            </small>
+          </div>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            [routerLink]="['/app/orders', order.id]"
+          >
+            Détail
+          </button>
+          
+        </mat-list-item>
+      </mat-list>
+
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

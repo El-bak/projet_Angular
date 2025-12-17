@@ -11,6 +11,9 @@ export interface ProductItem {
   image?: string;
   isNew?: boolean;
   inStock?: boolean;
+
+  /*Ajout */
+  stockStatus?: 'ok' | 'low' | 'out';
 }
 
 @Component({
@@ -28,9 +31,11 @@ export interface ProductItem {
         [image]="p.image"
         [isNew]="p.isNew"
         [inStock]="p.inStock"
+        [stockStatus]="p.stockStatus"
         [showRemove]="showRemove"
         (add)="add.emit(p)"
         (toggleWishlist)="toggleWishlist.emit(p)"
+        [isInWishlist]="true"
       ></app-product-card>
     </div>
   `,

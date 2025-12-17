@@ -2,10 +2,12 @@
 import { http, HttpResponse } from 'msw';
 import { products } from './data';
 import { paginate, avgRating } from './utils';
+import { reviewsHandlers } from './reviews.handlers';
 
 const API = '/api';
 
-export const handlers = [
+export const handlers = [ 
+  ...reviewsHandlers,
   // Auth: POST /api/auth/token/ -> { access, refresh }
   http.post(`${API}/auth/token/`, async () => {
     // Ici on accepte tout payload pour valider l'intégration front.
@@ -138,6 +140,33 @@ export const handlers = [
     );
   }),
   
-  
+  // ─────────────────────────────────────────────
+  // Validate stock: POST /api/cart/validate-stock
+  // ─────────────────────────────────────────────
+   http.post('/api/cart/validate-stock', async ({ request }) => {
+    const { items } = await request.json() as {
+      items: { productId: number; quantity: number }[];
+    };
 
+    for (const item of items) {
+      const product = products.find(p => p.id === item.productId);
+
+      if (!product || product.stock === undefined) {
+        continue;
+      }
+
+      if (product.stock < item.quantity) {
+        return HttpResponse.json(
+          {
+            message: `Stock insuffisant pour le produit "${product.name}"`,
+          },
+          { status: 400 }
+        );
+      }
+    }
+
+    return HttpResponse.json({ ok: true });
+  }),
 ];
+
+

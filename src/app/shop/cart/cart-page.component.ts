@@ -10,6 +10,7 @@ import { CartItem } from '../../state/cart/cart.reducer';
 import { FormsModule } from '@angular/forms';
 import { applyCoupon } from '../../state/coupon/coupon.actions';
 import { selectDiscount, selectTotalAfterDiscount } from '../../state/coupon/coupon.selectors';
+import { selectStockError } from '../../state/cart/cart.selectors';
 
 @Component({
   selector: 'app-cart-page',
@@ -26,14 +27,17 @@ export class CartPageComponent {
   couponCode = '';
   discount$!: Observable<number>;
   totalAfterDiscount$!: Observable<number>;
-
+  stockError$!: Observable<string | null>;
 
   constructor(private store: Store) {  
+    
   this.items$ = this.store.select(selectCartItems);
   this.total$ = this.store.select(selectCartTotal);
 
   this.discount$ = this.store.select(selectDiscount);
   this.totalAfterDiscount$ = this.store.select(selectTotalAfterDiscount);
+  
+  this.stockError$ = this.store.select(selectStockError)
 
   }
   
@@ -49,6 +53,10 @@ export class CartPageComponent {
 
   applyCoupon() {
   this.store.dispatch(applyCoupon({ code: this.couponCode }));
-}
+ }
+
+ checkout() {
+   this.store.dispatch(CartActions.validateStock());
+  }
 
 }

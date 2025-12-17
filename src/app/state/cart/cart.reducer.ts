@@ -13,6 +13,7 @@ export interface CartState {
   items: CartItem[];
   totalPrice: number;
   count: number;
+  stockError: string | null;
 }
 
 const saved = (() => {
@@ -24,38 +25,80 @@ const saved = (() => {
   }
 })();
 
-export const initialState: CartState = saved ?? { items: [], totalPrice: 0, count: 0 };
+export const initialState: CartState = saved ?? { 
+  items: [], 
+  totalPrice: 0, 
+  count: 0,
+  stockError: null,
+};
 
-const compute = (items: CartItem[]) => {
+const compute = (state: CartState, items: CartItem[]): CartState => {
   const count = items.reduce((s, i) => s + i.quantity, 0);
   const totalPrice = items.reduce((s, i) => s + i.price * i.quantity, 0);
-  return { items, count, totalPrice };
+
+  return {
+    ...state,
+    items,
+    count,
+    totalPrice,
+  };
 };
 
 export const cartReducer = createReducer(
   initialState,
   on(CartActions.addItem, (state, { product, quantity = 1 }) => {
-    const idx = state.items.findIndex((it) => it.productId === product.id);
-    let items: CartItem[] = [];
+    const idx = state.items.findIndex(it => it.productId === product.id);
+    let items: CartItem[];
+
     if (idx >= 0) {
-      items = state.items.map((it) =>
-        it.productId === product.id ? { ...it, quantity: it.quantity + quantity } : it
-      );
-    } else {
-      items = [...state.items, { productId: product.id, name: product.name, price: product.price, quantity, image: product.image }];
-    }
-    return compute(items);
+      items = state.items.map(it =>
+        it.productId === product.id
+          ? { ...it, quantity: it.quantity + quantity }
+          : it
+     );
+   }  else {
+     items = [
+       ...state.items,
+       {
+         productId: product.id,
+         name: product.name,
+         price: product.price,
+         quantity,
+         image: product.image,
+       },
+     ];
+   }
+
+   return compute(state, items);
   }),
+
   on(CartActions.removeItem, (state, { productId }) => {
-    const items = state.items.filter((i) => i.productId !== productId);
-    return compute(items);
+    const items = state.items.filter(i => i.productId !== productId);
+    return compute(state, items);
   }),
+
   on(CartActions.updateQuantity, (state, { productId, quantity }) => {
     const items = state.items
-      .map((i) => (i.productId === productId ? { ...i, quantity } : i))
-      .filter((i) => i.quantity > 0);
-    return compute(items);
+      .map(i => i.productId === productId ? { ...i, quantity } : i)
+      .filter(i => i.quantity > 0);
+
+    return compute(state, items);
   }),
-  on(CartActions.clearCart, () => compute([])),
-  on(CartActions.loadCartFromStorage, (_, { state }) => state)
+
+  on(CartActions.clearCart, (state) => compute(state, [])),
+  on(CartActions.loadCartFromStorage, (_, { state }) => state),
+  on(CartActions.validateStock, (state) => ({
+    ...state,
+    stockError: null,
+  })),
+
+  on(CartActions.validateStockFailure, (state, { error }) => ({
+    ...state,
+    stockError: error,
+  })),
+
+  on(CartActions.validateStockSuccess, (state) => ({
+    ...state,
+    stockError: null,
+  })),
 );

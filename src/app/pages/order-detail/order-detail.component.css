@@ -1,0 +1,56 @@
+.order-card {
+  max-width: 720px;
+  margin: 48px auto;
+  padding: 16px;
+  background: #e9dfcf;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.price {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.totals {
+  margin-top: 16px;
+}
+
+.total {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #6b4f2c;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 16px;
+  font-weight: 600;
+  color: #006400;
+}
+
+.order-item {
+  cursor: pointer;
+}
+
+.order-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.arrow {
+  margin-left: auto;
+  opacity: 0.6;
+}

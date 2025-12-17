@@ -33,3 +33,23 @@ export const selectSelectedProduct = createSelector(
   (s) => s?.selectedProduct ?? null
 );
 
+export const selectProductStockStatus = createSelector(
+  selectSelectedProduct,
+  product => {
+    if (!product || product.stock === undefined) return null;
+
+    if (product.stock === 0) {
+      return 'out';
+    }
+
+    if (
+      product.lowStockThreshold &&
+      product.stock <= product.lowStockThreshold
+    ) {
+      return 'low';
+    }
+
+    return 'ok';
+  }
+);
+

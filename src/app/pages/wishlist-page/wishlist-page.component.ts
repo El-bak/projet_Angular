@@ -11,11 +11,14 @@ import { ProductsListComponent } from '../../ui/products-list.component';
 import { ProductItem } from '../../ui/products-list.component';
 import * as ProductsActions from '../../state/products/products.actions';
 import { ToastService } from '../../services/toast.service';
-
+import { selectWishlistProducts } from '../../state/wishlist/wishlist.selectors';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { RouterLink } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-wishlist-page',
-  imports: [CommonModule, ProductsListComponent],
+  imports: [CommonModule, ProductsListComponent, MatCardModule, MatDividerModule, RouterLink],
   templateUrl: './wishlist-page.component.html',
   
 })
@@ -25,27 +28,26 @@ export class WishlistPageComponent {
 
    constructor(private store: Store, private toast: ToastService) {
 
-  this.products$ = combineLatest([
-    this.store.select(selectProductsList),
-    this.store.select(selectWishlistItems)
-  ]).pipe(
-  map(([products, wishlist]) =>
-    products
-      .filter(p => wishlist.includes(p.id))
-      .map(p => {
-        const ratings = p.ratings || [];
-        const avg =
-          ratings.length > 0
-            ? ratings.reduce((s: number, r: { value: number }) => s + r.value, 0) / ratings.length
-            : null;
+  this.products$ = this.store.select(selectWishlistProducts).pipe(
+  map(products =>
+    products.map(p => {
+      const ratings = p.ratings || [];
+      const avg =
+        ratings.length > 0
+          ? ratings.reduce((s: number, r: { value: number }) => s + r.value, 0) / ratings.length
+          : null;
+      
+      let stockStatus: 'ok' | 'low' | 'out' = 'ok';
 
-        return {
-          ...p,
-          avgRating: avg
-        };
-      })
-    )
+      if (p.stock === 0) stockStatus = 'out';
+      else if (p.lowStockThreshold && p.stock <= p.lowStockThreshold)
+        stockStatus = 'low';
+
+      return { ...p, avgRating: avg, stockStatus };
+    })
   )
+);
+
 
  }
  

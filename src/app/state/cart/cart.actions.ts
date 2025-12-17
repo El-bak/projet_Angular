@@ -17,6 +17,19 @@ export const updateQuantity = createAction(
   props<{ productId: number; quantity: number }>()
 );
 
+export const validateStock = createAction(
+  '[Cart] Validate Stock'
+);
+
+export const validateStockSuccess = createAction(
+  '[Cart] Validate Stock Success'
+);
+
+export const validateStockFailure = createAction(
+  '[Cart] Validate Stock Failure',
+  props<{ error: string }>()
+);
+
 export const clearCart = createAction('[Cart] Clear');
 
 export const loadCartFromStorage = createAction('[Cart] Load From Storage', props<{ state: any }>());

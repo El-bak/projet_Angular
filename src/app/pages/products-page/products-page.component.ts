@@ -58,16 +58,21 @@ export class ProductsPageComponent {
     map(products =>
       products.map(p => {
         const ratings = p.ratings || [];
-
         const avg =
-  ratings.length > 0
-    ? ratings.reduce((sum: number, r: { value: number }) => sum + r.value, 0) / ratings.length
-    : null;
+          ratings.length > 0
+            ? ratings.reduce((sum: number, r: { value: number }) => sum + r.value, 0) / ratings.length
+            : null;
+        
+        let stockStatus: 'ok' | 'low' | 'out' = 'ok';
 
+        if (p.stock === 0) stockStatus = 'out';
+        else if (p.lowStockThreshold && p.stock <= p.lowStockThreshold)
+          stockStatus = 'low';    
 
         return {
           ...p,
           avgRating: avg,
+          stockStatus,
           isNew: p.isNew ?? false,      // ou une règle réelle
           inStock: p.inStock ?? false     // ou une règle réelle
         };
@@ -125,9 +130,6 @@ export class ProductsPageComponent {
     WishlistActions.toggleWishlist({ productId: product.id })
   );
 
-  this.showToast = true;
-
-  setTimeout(() => (this.showToast = false), 1500);
  }
 
 }

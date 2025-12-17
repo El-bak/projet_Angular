@@ -6,7 +6,8 @@ import { DevProductsComponent } from './dev/dev-products.component';
 import { DevProductRatingComponent } from './dev/dev-product-rating.component';
 import { AppPlaceholderComponent } from './app-placeholder.component';
 import { authGuard } from './state/auth/auth.guard';
-
+import { ProfileComponent } from './pages/profile-page/profile.component';
+import { OrderDetailComponent } from './pages/order-detail/order-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -74,9 +75,20 @@ export const routes: Routes = [
   
   {
   path: 'app/shop/wishlist',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./pages/wishlist-page/wishlist-page.component').then(m => m.WishlistPageComponent)
- },
+  },
+
+  {
+    path: 'app/profile',
+    component: ProfileComponent
+  },
+
+  {
+  path: 'app/orders/:id',
+  component: OrderDetailComponent
+  },
 
   { path: '**', redirectTo: '/app', pathMatch: 'full' },
 ];

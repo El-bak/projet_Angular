@@ -1,0 +1,48 @@
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 640px;
+  margin-bottom: 24px;
+  background-color: #f7f3e9;
+}
+
+.full-width {
+  width: 95%;
+  margin-top: 16px;
+}
+
+.save-btn {
+  background-color: #d4a574;
+  color: #000000;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background-color: #d4a574;
+  color: #000000;
+}
+
+mat-list-item {
+  height: auto !important;
+  padding: 12px 0;
+  align-items: flex-start;
+}
+
+mat-list-item .mat-mdc-list-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

@@ -116,6 +116,13 @@
   color: #333;
 }
 
+.wishlist-btn {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .toast {
   position: fixed;
   top: 20px;
@@ -161,4 +168,29 @@
     opacity: 0;
     transform: translate(-50%, -10px);
   }
+}
+
+.review-card {
+  margin: 12px 0;
+  background: #f7f3e9;
+}
+
+.stars mat-icon {
+  font-size: 20px;
+}
+
+.rating-input mat-icon {
+  cursor: pointer;
+  font-size: 28px;
+  color: #ccc;
+}
+
+.rating-input mat-icon.active {
+  color: #f5a623;
+}
+
+.reviews-loader {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
 }

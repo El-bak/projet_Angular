@@ -1,0 +1,68 @@
+<button
+  mat-button
+  routerLink="/app/profile"
+  class="back-btn"
+>
+  <mat-icon>arrow_back</mat-icon>
+  Retour au profil
+</button>
+
+
+<mat-card class="order-card" *ngIf="order$ | async as order">
+
+  <mat-card-subtitle>
+  <mat-icon>event</mat-icon>
+  {{ order.createdAt | date:'longDate' }}
+</mat-card-subtitle>
+
+<p class="status">
+  <mat-icon color="primary">
+    {{ order.status === 'delivered' ? 'check_circle' : 'local_shipping' }}
+  </mat-icon>
+  {{ order.status }}
+</p>
+
+<mat-divider></mat-divider>
+
+  <mat-card-content>
+
+    <!-- PRODUITS -->
+    <h3>
+      <mat-icon>shopping_cart</mat-icon>
+      Produits
+    </h3>
+
+    <mat-list *ngIf="order.items.length > 0">
+      <mat-list-item *ngFor="let item of order.items">
+        <mat-icon matListIcon>inventory_2</mat-icon>
+        <div>
+          <strong>{{ item.name }}</strong><br />
+          {{ item.quantity }} × {{ item.price }} €
+        </div>
+        <span class="price">
+          {{ item.quantity * item.price }} €
+        </span>
+      </mat-list-item>
+    </mat-list>
+
+    <p *ngIf="order.items.length === 0">
+      Aucun produit dans cette commande.
+    </p>
+
+    <mat-divider></mat-divider>
+
+    <!-- TOTAUX -->
+    <div class="totals">
+      <p>Sous-total : <strong>{{ order.subtotal }} €</strong></p>
+      <p>Taxes : <strong>{{ order.taxes }} €</strong></p>
+      <p>Livraison : <strong>{{ order.shipping }} €</strong></p>
+      <p class="total">
+        Total : {{ order.total }} €
+      </p>
+    </div>
+
+  </mat-card-content>
+
+</mat-card>
+
+<p *ngIf="loading$ | async">Chargement…</p>
