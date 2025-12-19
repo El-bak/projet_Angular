@@ -7,7 +7,9 @@ import { DevProductRatingComponent } from './dev/dev-product-rating.component';
 import { AppPlaceholderComponent } from './app-placeholder.component';
 import { authGuard } from './state/auth/auth.guard';
 import { ProfileComponent } from './pages/profile-page/profile.component';
-import { OrderDetailComponent } from './pages/order-detail/order-detail.component';
+import { OrderDetailComponent } from './pages/order-detail/order-detail.component'
+import { cartNotEmptyGuard } from './shop/checkout/guards/checkout-cart.guard';
+import { checkoutAddressGuard } from './shop/checkout/guards/checkout-address.guard'; 
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -58,19 +60,27 @@ export const routes: Routes = [
 
   {
     path: 'app/shop/checkout/summary',
-    canActivate: [authGuard],
+    canActivate: [authGuard, cartNotEmptyGuard],
     loadComponent: () =>
       import('./shop/checkout/step1-summary.component').then(m => m.Step1SummaryComponent)
   },
   {
     path: 'app/shop/checkout/address',
+    canActivate: [authGuard, cartNotEmptyGuard],
     loadComponent: () =>
       import('./shop/checkout/step2-address.component').then(m => m.Step2AddressComponent)
   },
   {
-    path: 'app/shop/checkout/confirm',
+    path: 'app/shop/checkout/payment',
+    canActivate: [authGuard, cartNotEmptyGuard, checkoutAddressGuard],
     loadComponent: () =>
-      import('./shop/checkout/step3-confirm.component').then(m => m.Step3ConfirmComponent)
+      import('./shop/checkout/step3-payment.component').then(m => m.Step3PaymentComponent)
+  },
+  {
+    path: 'app/shop/checkout/confirm',
+    canActivate: [authGuard, cartNotEmptyGuard],
+    loadComponent: () =>
+      import('./shop/checkout/step4-confirm.component').then(m => m.Step4ConfirmComponent)
   },
   
   {
@@ -81,13 +91,23 @@ export const routes: Routes = [
   },
 
   {
-    path: 'app/profile',
+    path: 'app/account/profile',
+    canActivate: [authGuard],
     component: ProfileComponent
+  },
+   
+  {
+    path: 'app/account/orders',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/orders-page/orders-page.component')
+        .then(m => m.OrdersPageComponent)
   },
 
   {
-  path: 'app/orders/:id',
-  component: OrderDetailComponent
+    path: 'app/account/orders/:id',
+    canActivate: [authGuard],
+    component: OrderDetailComponent
   },
 
   { path: '**', redirectTo: '/app', pathMatch: 'full' },

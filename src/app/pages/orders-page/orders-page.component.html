@@ -1,0 +1,16 @@
+<h2>📦 Mes commandes</h2>
+
+<p *ngIf="loading$ | async">Chargement…</p>
+
+<ul *ngIf="orders$ | async as orders">
+  <li *ngFor="let o of orders">
+    <a [routerLink]="['/app/account/orders', o.id]">
+      {{ o.orderNumber }} — {{ o.total }} €
+      ({{ o.createdAt | date:'short' }})
+    </a>
+  </li>
+</ul>
+
+<p *ngIf="(orders$ | async)?.length === 0">
+  Aucune commande.
+</p>

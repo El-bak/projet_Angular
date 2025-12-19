@@ -8,6 +8,7 @@ import { selectIsAuthenticated } from './state/auth/auth.selectors';
 import * as AuthActions from './state/auth/auth.actions';
 import { selectWishlistCount } from './state/wishlist/wishlist.selectors';
 import { ToastComponent } from './pages/toast.component'
+import { loadPromoFromStorage } from './state/promo/promo.actions';
 
 @Component({
   selector: 'app-root',
@@ -38,5 +39,12 @@ export class App {
     this.store.dispatch(AuthActions.logout());
   }
 
-  
+  ngOnInit() {
+    const raw = localStorage.getItem('promo_v1');
+    if (raw) {
+      this.store.dispatch(
+        loadPromoFromStorage({ state: JSON.parse(raw) })
+     );
+   }
+  }  
 }

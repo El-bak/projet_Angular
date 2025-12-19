@@ -1,0 +1,58 @@
+<!-- src/app/shop/checkout/step4-confirm.component.html -->
+<div class="back-container">
+<button class="back-btn" routerLink="/app/shop/checkout/address">← Back</button>
+</div>
+<div class="checkout-container">
+<h2>Confirmation de commande</h2>
+
+<div *ngIf="orderNumber$ | async as orderNumber; else summary">
+
+  <p>Merci pour votre commande !</p>
+  <p>Numéro de commande : <strong>{{ orderNumber }}</strong></p>
+  <button (click)="backToHome()">Retour à l'accueil</button>
+</div>
+
+<ng-template #summary>
+  <div *ngIf="items$ | async as items">
+    <h3>Résumé de votre panier :</h3>
+    <ul>
+      <li *ngFor="let it of items">{{ it.name }} x {{ it.quantity }} → {{ it.price * it.quantity }} €</li>
+    </ul>
+    <div *ngIf="promoTotals$ | async as promo; else noPromo">
+  <p>Sous-total : {{ promo.itemsTotal }} €</p>
+
+  <p *ngIf="promo.discount > 0">
+    Réduction : −{{ promo.discount }} €
+  </p>
+
+  <p>Livraison : {{ promo.shipping }} €</p>
+  <p>Taxes : {{ promo.taxes }} €</p>
+
+  <p><strong>Total à payer : {{ promo.grandTotal }} €</strong></p>
+  <p *ngIf="promo.appliedPromos?.length">
+  <strong>Code(s) promo appliqué(s) :</strong>
+  <span *ngFor="let code of promo.appliedPromos; let last = last">
+    {{ code }}<span *ngIf="!last">, </span>
+  </span>
+</p>
+
+</div>
+
+<ng-template #noPromo>
+  <p><strong>Total :</strong> {{ total$ | async }} €</p>
+</ng-template>
+
+    <p><strong>Paiement :</strong> {{ paymentMethod$ | async }}</p>
+
+    <button
+      (click)="confirmOrder()"
+      [disabled]="loading$ | async">
+      Confirmer la commande
+    </button>
+
+    <p *ngIf="loading$ | async" class="loader">⏳ Paiement en cours, merci de patienter...</p>
+    <p class="error" *ngIf="error$ | async as err">⚠️ {{ err }}</p>
+
+  </div>
+</ng-template>
+</div>

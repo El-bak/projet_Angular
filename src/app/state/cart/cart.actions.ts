@@ -17,6 +17,12 @@ export const updateQuantity = createAction(
   props<{ productId: number; quantity: number }>()
 );
 
+export const setTotals = createAction(
+  '[Cart] Set Totals',
+  props<{ subtotal: number; discount: number; totalPrice: number }>()
+);
+
+
 export const validateStock = createAction(
   '[Cart] Validate Stock'
 );

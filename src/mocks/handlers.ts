@@ -4,6 +4,12 @@ import { products } from './data';
 import { paginate, avgRating } from './utils';
 import { reviewsHandlers } from './reviews.handlers';
 
+// ─────────────────────────────────────────────
+// Fake DB commandes
+// ─────────────────────────────────────────────
+let orders: any[] = [];
+
+
 const API = '/api';
 
 export const handlers = [ 
@@ -92,7 +98,7 @@ export const handlers = [
     },
     { status: 200 },
   );
-}),
+ }),
   // ─────────────────────────────────────────────
   // Product details: GET /api/products/:id/
   // ─────────────────────────────────────────────
@@ -132,21 +138,68 @@ export const handlers = [
   // ─────────────────────────────────────────────
   // Order creation: POST /api/order/
   // ─────────────────────────────────────────────
-  http.post(`${API}/order/`, async () => {
-    const orderNumber = 'ORD-' + Math.floor(Math.random() * 100000);
-    return HttpResponse.json(
-      { orderNumber },
-      { status: 200 },
-    );
+  http.post(`${API}/order/`, async ({ request }) => {
+    const body = await request.json() as {
+      items: any[];
+      total: number;
+      paymentMethod: string;
+      promo?: {
+        discount: number;
+        shipping: number;
+        taxes: number;
+        appliedPromos: string[];
+      } | null;
+    };
+      
+    const order = {
+      id: crypto.randomUUID(),
+      orderNumber: 'ORD-' + Math.floor(Math.random() * 100000),
+      items: body.items,
+      total: body.total,
+      paymentMethod: body.paymentMethod,
+      promo: body.promo ?? null,
+      status: 'paid',
+      createdAt: new Date().toISOString()
+    };
+
+    orders.push(order);
+
+    return HttpResponse.json(order, { status: 200 });
   }),
+
+  // ─────────────────────────────────────────────
+  // Orders list
+  // ─────────────────────────────────────────────
+  http.get(`${API}/orders`, async () => {
+    return HttpResponse.json(orders, { status: 200 });
+  }),
+  
+  // ─────────────────────────────────────────────
+  // Order detail
+  // ─────────────────────────────────────────────
+  http.get(`${API}/orders/:id`, async ({ params }) => {
+    const order = orders.find(o => o.id === params['id']);
+
+    if (!order) {
+      return HttpResponse.json(
+        { message: 'Commande introuvable' },
+        { status: 404 }
+      );
+   }
+
+   return HttpResponse.json(order, { status: 200 });
+  }),
+
   
   // ─────────────────────────────────────────────
   // Validate stock: POST /api/cart/validate-stock
   // ─────────────────────────────────────────────
-   http.post('/api/cart/validate-stock', async ({ request }) => {
+  http.post(`${API}/cart/validate-stock`, async ({ request }) => {
     const { items } = await request.json() as {
       items: { productId: number; quantity: number }[];
     };
+    
+    console.log('[MSW] FIRST validate-stock handler', items)
 
     for (const item of items) {
       const product = products.find(p => p.id === item.productId);
@@ -166,6 +219,109 @@ export const handlers = [
     }
 
     return HttpResponse.json({ ok: true });
+  }),
+
+  http.post('/api/cart/apply-promo', async ({ request }) => {
+    const { items, code } = await request.json() as any;
+
+    const itemsTotal = items.reduce(
+     (sum: number, i: any) => sum + i.price * i.quantity,
+     0
+    );
+
+    let discount = 0;
+    let shipping = 5;
+    const appliedPromos: string[] = [];
+
+    switch (code.toUpperCase()) {
+      case 'WELCOME10':
+        discount = itemsTotal * 0.10;
+        appliedPromos.push('WELCOME10');
+        break;
+
+      case 'FREESHIP':
+        shipping = 0;
+        appliedPromos.push('FREESHIP');
+        break;
+
+      case 'VIP20':
+        if (itemsTotal >= 100) {
+          discount = itemsTotal * 0.20;
+          appliedPromos.push('VIP20');
+        } else {
+          return HttpResponse.json(
+            { message: 'VIP20 valable à partir de 100€' },
+            { status: 400 }
+          );
+       }
+       break;
+
+     default:
+       return HttpResponse.json(
+         { message: 'Code promo inconnu' },
+         { status: 400 }
+       );
+  }
+
+  const taxes = (itemsTotal - discount) * 0.2;
+  const grandTotal = itemsTotal - discount + shipping + taxes;
+  const round = (n: number) => Math.round(n * 100) / 100;
+
+  return HttpResponse.json({
+    itemsTotal: round(itemsTotal),
+    discount: round(discount),
+    shipping: round(shipping),
+    taxes: round(taxes),
+    grandTotal: round(grandTotal),
+    appliedPromos
+   });
+  }),
+
+  // ─────────────────────────────────────────────
+  // USER PROFILE
+  // ─────────────────────────────────────────────
+  http.get(`${API}/me/`, () => {
+    return HttpResponse.json({
+      id: 'u1',
+      username: 'demo',
+      email: 'demo@myshop.dev',
+      fullName: 'Demo User',
+      preferences: {
+        newsletter: true,
+        defaultMinRating: 3,
+      },
+    });
+  }),
+
+  http.patch(`${API}/me/`, async ({ request }) => {
+    const body = (await request.json()) as Partial<{
+      fullName: string;
+      preferences: {
+        newsletter: boolean;
+        defaultMinRating?: number;
+      }
+    }>;
+    
+    return HttpResponse.json({
+      id: 'u1',
+      username: 'demo',
+      email: 'demo@myshop.dev',
+      ...body
+    });
+  }),
+
+  // ─────────────────────────────────────────────
+  // USER ORDERS (basé sur vraies commandes)
+  // ─────────────────────────────────────────────
+  http.get(`${API}/me/orders/`, () => {
+    return HttpResponse.json(
+      orders.map(o => ({
+        id: o.id,
+        total: o.total,
+        createdAt: o.createdAt,
+        status: o.status
+      }))
+    );
   }),
 ];
 

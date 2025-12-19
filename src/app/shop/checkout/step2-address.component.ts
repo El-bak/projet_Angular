@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as CheckoutActions from '../../state/checkout/checkout.actions';
+
 
 @Component({
   selector: 'app-step2-address',
@@ -20,10 +23,20 @@ export class Step2AddressComponent {
   postalCode = '';
   country = '';
 
-  constructor(private router: Router) {}
+  constructor(private store: Store, private router: Router) {}
 
   nextStep() {
     // Ici tu pourrais valider le formulaire avant de continuer
-    this.router.navigate(['/app/shop/checkout/confirm']);
+    this.store.dispatch(CheckoutActions.saveAddress({
+      address: {
+        name: this.name,
+        email: this.mail,
+        address: this.address,
+        city: this.city,
+        postalCode: this.postalCode,
+        country: this.country
+      }
+    }));
+    this.router.navigate(['/app/shop/checkout/payment']);
   }
 }

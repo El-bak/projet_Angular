@@ -8,9 +8,11 @@ import { RouterLink } from '@angular/router';
 import { CartItemComponent } from './cart-item.component';
 import { CartItem } from '../../state/cart/cart.reducer';
 import { FormsModule } from '@angular/forms';
-import { applyCoupon } from '../../state/coupon/coupon.actions';
-import { selectDiscount, selectTotalAfterDiscount } from '../../state/coupon/coupon.selectors';
+import { applyPromo  } from '../../state/promo/promo.actions';
+import { selectPromoTotals} from '../../state/promo/promo.selectors';
 import { selectStockError } from '../../state/cart/cart.selectors';
+import { map } from 'rxjs/operators';
+import { selectPromoState, selectPromoError } from '../../state/promo/promo.selectors';
 
 @Component({
   selector: 'app-cart-page',
@@ -23,26 +25,26 @@ export class CartPageComponent {
 
   items$: Observable<CartItem[]>;
   total$: Observable<number>;
+  promoTotals$!: Observable<any>;
+  promoError$!: Observable<string | null>;
+  canCheckout$!: Observable<boolean>;
+  stockError$!: Observable<string | null>;
 
   couponCode = '';
-  discount$!: Observable<number>;
-  totalAfterDiscount$!: Observable<number>;
-  stockError$!: Observable<string | null>;
 
   constructor(private store: Store) {  
     
-  this.items$ = this.store.select(selectCartItems);
-  this.total$ = this.store.select(selectCartTotal);
-
-  this.discount$ = this.store.select(selectDiscount);
-  this.totalAfterDiscount$ = this.store.select(selectTotalAfterDiscount);
+    this.items$ = this.store.select(selectCartItems);
+    this.total$ = this.store.select(selectCartTotal);
+    this.stockError$ = this.store.select(selectStockError)
+    this.promoTotals$ = this.store.select(selectPromoTotals);
+    this.promoError$ = this.store.select(selectPromoError);
   
-  this.stockError$ = this.store.select(selectStockError)
-
+    this.canCheckout$ = this.store.select(selectPromoState).pipe(
+      map(promo => !promo.loading && !promo.error)
+    );
   }
   
-
-
   removeItem(productId: number) {
     this.store.dispatch(CartActions.removeItem({ productId }));
   }
@@ -51,12 +53,11 @@ export class CartPageComponent {
     this.store.dispatch(CartActions.updateQuantity({ productId, quantity: qty }));
   }
 
-  applyCoupon() {
-  this.store.dispatch(applyCoupon({ code: this.couponCode }));
- }
+  applyPromo() {
+      this.store.dispatch(applyPromo({ code: this.couponCode }));
+  }
 
  checkout() {
    this.store.dispatch(CartActions.validateStock());
   }
-
 }

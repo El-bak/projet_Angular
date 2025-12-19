@@ -270,7 +270,7 @@ export const products: Product[] = [
     id: 20,
     name: 'Tampon Encreur',
     price: 5.0,
-    stock: 4,
+    stock: 2,
     created_at: '2025-04-20T15:00:00Z',
     owner_id: 17,
     ratings: [{ user_id: 9, value: 4 }],

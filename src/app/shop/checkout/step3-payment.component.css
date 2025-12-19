@@ -1,0 +1,43 @@
+/* src/app/shop/checkout/step3-payment.component.css */
+.checkout-container {
+  max-width: 600px;
+  margin: 20px auto;
+  background: #f5e7d0;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.methods {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.method {
+  flex: 1;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.method.selected {
+  border-color: #1976d2;
+  background: #e3f2fd;
+}
+
+.next-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -11,6 +11,8 @@ export interface CartItem {
 
 export interface CartState {
   items: CartItem[];
+  subtotal: number;
+  discount: number;
   totalPrice: number;
   count: number;
   stockError: string | null;
@@ -84,6 +86,13 @@ export const cartReducer = createReducer(
 
     return compute(state, items);
   }),
+
+  on(CartActions.setTotals, (state, { subtotal, discount, totalPrice }) => ({
+    ...state,
+    subtotal,
+    discount,
+    totalPrice
+  })),
 
   on(CartActions.clearCart, (state) => compute(state, [])),
   on(CartActions.loadCartFromStorage, (_, { state }) => state),

@@ -19,13 +19,13 @@ button {
   padding: 10px 15px;
   border: none;
   background-color: #1976d2;
-  color: white;
+  color: black;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #1565c0;
+  background-color: #d4a574;
 }
 
 .checkout-container {

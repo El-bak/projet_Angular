@@ -1,0 +1,32 @@
+<div class="back-container">
+  <button class="back-btn" routerLink="/app/shop/checkout/address">
+    ← Back
+  </button>
+</div>
+
+<div class="checkout-container">
+  <h2>Moyen de paiement</h2>
+
+  <div class="methods">
+    <button
+      class="method"
+      [class.selected]="method === 'card'"
+      (click)="select('card')">
+      💳 Carte bancaire
+    </button>
+
+    <button
+      class="method"
+      [class.selected]="method === 'paypal'"
+      (click)="select('paypal')">
+      🅿️ PayPal
+    </button>
+  </div>
+
+  <button
+    class="next-btn"
+    [disabled]="!method"
+    (click)="next()">
+    Suivant → Confirmation
+  </button>
+</div>

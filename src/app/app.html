@@ -7,7 +7,7 @@
     
      <!--  Bouton Logout visible uniquement si connecté -->
     <button *ngIf="isAuth$ | async"  (click)="logout()"
-            class="text-sm px-3 py-1 bg-brown-500 text-black rounded">Logout
+            class="text-sm px-3 py-1 bg-brown-500 text-black rounded">🚪Logout
   </button>
     <button routerLink="/app/shop/wishlist">
     ❤️ Wishlist ({{ wishlistCount$ | async }})
@@ -17,6 +17,8 @@
     <a routerLink="/app/shop/cart" class="text-sm">
       🛒 Panier ({{ cartCount$ | async }})
     </a>
+
+    <a routerLink="app/account/profile" class="text-sm">👤Profil</a>
 
     
    

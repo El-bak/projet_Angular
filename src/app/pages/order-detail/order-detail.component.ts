@@ -4,11 +4,12 @@ import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import * as UserActions from '../../state/user/user.actions';
+import * as OrdersActions from '../../state/orders/orders.actions';
 import {
   selectSelectedOrder,
-  selectUserLoading
-} from '../../state/user/user.selectors';
+  selectOrdersLoading
+} from '../../state/orders/orders.selectors';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
@@ -26,12 +27,13 @@ export class OrderDetailComponent implements OnInit {
   private store = inject(Store);
 
   order$ = this.store.select(selectSelectedOrder);
-  loading$ = this.store.select(selectUserLoading);
+  loading$ = this.store.select(selectOrdersLoading);
+
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.store.dispatch(UserActions.loadOrderDetail({ id }));
+      this.store.dispatch(OrdersActions.loadOrderDetail({ id }));
     }
   }
 

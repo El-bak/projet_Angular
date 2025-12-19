@@ -18,9 +18,17 @@
     <div class="subtotal">
       <span>Total :</span> <strong>{{ total$ | async }} €</strong>
     </div>
-
-    <button routerLink="/app/shop/checkout/summary" class="checkout-btn">
-      Passer à la caisse
+    
+    <p class="error" *ngIf="stockError$ | async as err">
+     ⚠️ {{ err }}
+    </p>
+    
+    <button
+      class="checkout-btn"
+      [disabled]="!(canCheckout$ | async)"
+      (click)="checkout()"
+    >
+    Passer à la caisse
     </button>
 
   </div>
@@ -37,15 +45,16 @@
     [(ngModel)]="couponCode"
   />
 
-  <button (click)="applyCoupon()">Appliquer</button>
+  <button (click)="applyPromo()">Appliquer</button>
 
-  <p *ngIf="discount$ | async as d">
-    Réduction : -{{ d * 100 }} %
+  <p class="error" *ngIf="promoError$ | async as err">
+    ⚠️ {{ err }}
   </p>
 
-  <p>
-    Total après réduction :
-    <strong>{{ totalAfterDiscount$ | async }} €</strong>
+  <!-- ✅ TOTAL FINAL BACKEND -->
+  <p *ngIf="promoTotals$ | async as t">
+    Total final :
+    <strong>{{ t.grandTotal }} €</strong>
   </p>
 </div>
 

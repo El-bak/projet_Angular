@@ -27,12 +27,18 @@ import { RatingEffects } from './state/rating/rating.effects';
 
 import { cartReducer } from './state/cart/cart.reducer';
 import { CartEffects } from './state/cart/cart.effects';
-import { couponReducer } from './state/coupon/coupon.reducer';
+import { promoReducer } from './state/promo/promo.reducer';
+import { PromoEffects } from './state/promo/promo.effects';
 import { wishlistMetaReducer, wishlistReducer } from './state/wishlist/wishlist.reducer';
 import { userReducer  } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effects';
 import { ReviewsEffects } from './state/reviews/reviews.effects';
 import { reviewsReducer } from './state/reviews/reviews.reducer';
+import { checkoutReducer } from './state/checkout/checkout.reducer';
+import { CheckoutEffects } from './state/checkout/checkout.effects';
+import { ordersReducer } from './state/orders/orders.reducer';
+import { OrdersEffects } from './state/orders/orders.effects';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -49,16 +55,18 @@ export const appConfig: ApplicationConfig = {
       products: productsReducer, 
       rating: ratingReducer,
       cart: cartReducer,
-      coupon: couponReducer,
+      promo: promoReducer,
       wishlist: wishlistMetaReducer(wishlistReducer),
       user: userReducer,
-      reviews: reviewsReducer
+      reviews: reviewsReducer,
+      checkout: checkoutReducer,
+      orders: ordersReducer,
      
 
     }),
 
     // NgRx Effects
-    provideEffects([AuthEffects, ProductsEffects, RatingEffects, CartEffects, UserEffects, ReviewsEffects]),
+    provideEffects([AuthEffects, ProductsEffects, RatingEffects, CartEffects, UserEffects, ReviewsEffects, PromoEffects, CheckoutEffects, OrdersEffects]),
 
   ],
 };

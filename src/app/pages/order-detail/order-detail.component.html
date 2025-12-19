@@ -1,6 +1,6 @@
 <button
   mat-button
-  routerLink="/app/profile"
+  routerLink="/app/account/profile"
   class="back-btn"
 >
   <mat-icon>arrow_back</mat-icon>
@@ -14,13 +14,28 @@
   <mat-icon>event</mat-icon>
   {{ order.createdAt | date:'longDate' }}
 </mat-card-subtitle>
-
-<p class="status">
+  
+ <p class="status">
   <mat-icon color="primary">
-    {{ order.status === 'delivered' ? 'check_circle' : 'local_shipping' }}
+    {{ order.status === 'delivered'
+        ? 'check_circle'
+        : order.status === 'shipped'
+        ? 'local_shipping'
+        : 'payments' }}
   </mat-icon>
-  {{ order.status }}
+
+  <strong>
+    {{
+      order.status === 'paid'
+        ? 'Payée'
+        : order.status === 'shipped'
+        ? 'Expédiée'
+        : 'Livrée'
+    }}
+  </strong>
 </p>
+
+
 
 <mat-divider></mat-divider>
 
@@ -53,11 +68,12 @@
 
     <!-- TOTAUX -->
     <div class="totals">
-      <p>Sous-total : <strong>{{ order.subtotal }} €</strong></p>
-      <p>Taxes : <strong>{{ order.taxes }} €</strong></p>
-      <p>Livraison : <strong>{{ order.shipping }} €</strong></p>
+      
       <p class="total">
         Total : {{ order.total }} €
+      </p>
+      <p>
+        Paiement : <strong>{{ order.paymentMethod }}</strong>
       </p>
     </div>
 
