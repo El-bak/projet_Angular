@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
@@ -20,6 +20,7 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatDividerModule, RouterModule],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDetailComponent implements OnInit {
   

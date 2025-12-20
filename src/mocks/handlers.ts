@@ -2,7 +2,7 @@
 import { http, HttpResponse } from 'msw';
 import { products } from './data';
 import { paginate, avgRating } from './utils';
-import { reviewsHandlers } from './reviews.handlers';
+
 
 // ─────────────────────────────────────────────
 // Fake DB commandes
@@ -12,8 +12,46 @@ let orders: any[] = [];
 
 const API = '/api';
 
+// ─────────────────────────────
+// Fake DB AVIS PRODUITS (persistée)
+// ─────────────────────────────
+
+const REVIEWS_KEY = 'msw_product_reviews';
+
+const loadReviews = (): Record<number, any[]> => {
+  const raw = localStorage.getItem(REVIEWS_KEY);
+  if (raw) {
+    return JSON.parse(raw);
+  }
+
+  // Initialisation avec avis de démo pour chaque produit
+  const initial: Record<number, any[]> = {};
+
+  products.forEach(product => {
+    initial[product.id] = [
+      {
+        id: crypto.randomUUID(),
+        user: { id: 'u1', username: 'demo' },
+        rating: 4,
+        comment: `Avis de démonstration pour ${product.name}`,
+        createdAt: '2025-11-10',
+      }
+    ];
+  });
+
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(initial));
+  return initial;
+};
+
+const saveReviews = (reviews: Record<number, any[]>) => {
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+};
+
+let productReviews = loadReviews();
+
+
 export const handlers = [ 
-  ...reviewsHandlers,
+  
   // Auth: POST /api/auth/token/ -> { access, refresh }
   http.post(`${API}/auth/token/`, async () => {
     // Ici on accepte tout payload pour valider l'intégration front.
@@ -150,6 +188,13 @@ export const handlers = [
         appliedPromos: string[];
       } | null;
     };
+
+    const statusFlow: Array<'paid' | 'shipped' | 'delivered'> = [
+      'paid',
+      'shipped',
+      'delivered'
+    ];
+
       
     const order = {
       id: crypto.randomUUID(),
@@ -158,7 +203,7 @@ export const handlers = [
       total: body.total,
       paymentMethod: body.paymentMethod,
       promo: body.promo ?? null,
-      status: 'paid',
+      status: statusFlow[Math.floor(Math.random() * statusFlow.length)], 
       createdAt: new Date().toISOString()
     };
 
@@ -322,6 +367,85 @@ export const handlers = [
         status: o.status
       }))
     );
+  }),
+
+  http.get('/api/admin/stats', () => {
+    return HttpResponse.json({
+      totalUsers: 1,
+      totalOrders: 12,
+      totalRevenue: 1840,
+
+      topProducts: [
+        {
+          productId: 'p1',
+          name: 'Laptop Pro',
+          sold: 6,
+          revenue: 900
+        },
+        {
+          productId: 'p2',
+          name: 'Wireless Headphones',
+          sold: 4,
+          revenue: 520
+        }
+     ],
+
+      recentOrders: [
+        { 
+          id: 'o1001',
+          user: 'Demo',
+          total: 220,
+          createdAt: '2025-01-10',
+          status: 'Livrée'
+        },
+        {
+          id: 'o1002',
+          user: 'Demo',
+          total: 180,
+          createdAt: '2025-01-12',
+          status: 'Expédiée'
+        }
+      ]
+    });
+  }),
+
+  // ─────────────────────────────
+  // REVIEWS (AVIS PRODUITS)
+  // ─────────────────────────────
+
+  http.get(`${API}/products/:id/reviews/`, ({ params }) => {
+    const productId = Number(params['id']);
+
+    if (!productReviews[productId]) {
+      productReviews[productId] = [];
+    }
+
+    return HttpResponse.json(productReviews[productId], { status: 200 });
+  }),
+
+  http.post(`${API}/products/:id/reviews/`, async ({ params, request }) => {
+    const productId = Number(params['id']);
+    const body = (await request.json()) as {
+      rating: number;
+      comment: string;
+    };
+
+    if (!productReviews[productId]) {
+      productReviews[productId] = [];
+    }
+
+    const newReview = {
+      id: crypto.randomUUID(),
+      user: { id: 'u1', username: 'demo' },
+      rating: body.rating,
+      comment: body.comment,
+      createdAt: new Date().toISOString(),
+    };
+
+    productReviews[productId].push(newReview);
+    saveReviews(productReviews);
+
+    return HttpResponse.json(newReview, { status: 201 });
   }),
 ];
 

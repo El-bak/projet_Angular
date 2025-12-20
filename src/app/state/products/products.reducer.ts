@@ -21,11 +21,11 @@ export const initialState: ProductsState = {
 
 export const productsReducer = createReducer(
   initialState,
-  on(ProductsActions.loadProducts, (state, query) => ({
+  on(ProductsActions.loadProducts, (state, { page, pageSize, minRating, ordering }) => ({
     ...state,
     loading: true,
     error: null,
-    lastQuery: query,
+    lastQuery: { page, pageSize, minRating, ordering },
   })),
   on(ProductsActions.loadProductsSuccess, (state, { count, results }) => ({
     ...state,

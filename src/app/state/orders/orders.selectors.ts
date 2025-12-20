@@ -38,3 +38,20 @@ export const selectLastOrderId = createSelector(
   selectLastOrder,
   order => order?.id ?? null
 );
+
+export const selectOrdersCount = createSelector(
+  selectOrdersList,
+  orders => orders.length
+);
+
+export const selectOrdersTotalAmount = createSelector(
+  selectOrdersList,
+  orders =>
+    orders.reduce((sum, o) => sum + o.total, 0)
+);
+
+export const selectDeliveredOrdersCount = createSelector(
+  selectOrdersList,
+  orders =>
+    orders.filter(o => o.status === 'delivered').length
+);

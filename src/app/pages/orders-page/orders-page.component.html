@@ -1,16 +1,60 @@
 <h2>📦 Mes commandes</h2>
 
-<p *ngIf="loading$ | async">Chargement…</p>
+<p *ngIf="loading$ | async" class="loader">
+  <mat-icon>hourglass_top</mat-icon>
+  Chargement des commandes…
+</p>
 
-<ul *ngIf="orders$ | async as orders">
-  <li *ngFor="let o of orders">
-    <a [routerLink]="['/app/account/orders', o.id]">
-      {{ o.orderNumber }} — {{ o.total }} €
-      ({{ o.createdAt | date:'short' }})
-    </a>
-  </li>
-</ul>
+<mat-list *ngIf="orders$ | async as orders">
 
-<p *ngIf="(orders$ | async)?.length === 0">
-  Aucune commande.
+  <mat-list-item
+    *ngFor="let o of orders; trackBy: trackByOrderId"
+    class="order-item"
+  >
+    <mat-icon matListIcon>receipt_long</mat-icon>
+
+    <div class="order-info">
+      <strong>#{{ o.orderNumber }}</strong><br />
+      <small>{{ o.createdAt | date:'short' }}</small>
+    </div>
+
+    <span class="price">
+      {{ o.total }} €
+    </span>
+
+    <!-- BADGE STATUS -->
+    <span class="status-badge" [ngClass]="o.status">
+      <mat-icon>
+        {{
+          o.status === 'paid'
+            ? 'payments'
+            : o.status === 'shipped'
+            ? 'local_shipping'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      {{ o.status === 'paid'
+           ? 'Payée'
+           : o.status === 'shipped'
+           ? 'Expédiée'
+           : 'Livrée' }}
+    </span>
+
+    <button
+      mat-icon-button
+      color="primary"
+      [routerLink]="['/app/account/orders', o.id]"
+    >
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+
+  </mat-list-item>
+
+</mat-list>
+
+<p
+  *ngIf="(orders$ | async)?.length === 0 && !(loading$ | async)"
+  class="empty"
+>
+  Aucune commande pour le moment 📭
 </p>

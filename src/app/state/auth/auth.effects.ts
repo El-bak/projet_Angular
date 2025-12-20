@@ -7,10 +7,12 @@ import { Router } from '@angular/router';
 import  * as UserActions  from '../user/user.actions';
 
 
+
 export class AuthEffects {
   private actions$ = inject(Actions);
   private api = inject(AppService);
   private router = inject(Router);
+  
 
   // ---------------------------
   // 1) LOGIN
@@ -101,7 +103,7 @@ export class AuthEffects {
         tap(() => {
           localStorage.removeItem('access');
           localStorage.removeItem('refresh');
-          this.router.navigate(['/app/login']);
+          this.router.navigate(['/app/login'], { replaceUrl: true });
         })
       ),
     { dispatch: false }

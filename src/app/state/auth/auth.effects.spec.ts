@@ -35,32 +35,36 @@ describe('AuthEffects', () => {
   // -------------------------
   // LOGIN SUCCESS
   // -------------------------
-  it('should dispatch loginSuccess on login', (done) => {
-    api.login.and.returnValue(of({ access: 'A', refresh: 'R' }));
-
+  it('should dispatch loginSuccess on demo login', (done) => {
     actions$ = new ReplaySubject(1);
-    actions$.next(AuthActions.login({ username: 'u', password: 'p' }));
+    actions$.next(AuthActions.login({ username: 'Demo', password: 'Demo' }));
 
     effects.login$.subscribe((result) => {
-      expect(result).toEqual(AuthActions.loginSuccess({ access: 'A', refresh: 'R' }));
+      expect(result).toEqual(
+        AuthActions.loginSuccess({
+          access: 'fake-access-token',
+          refresh: 'fake-refresh-token'
+        })
+      );
       done();
-    });
+   });
   });
 
   // -------------------------
   // LOGIN FAILURE
   // -------------------------
-  it('should dispatch loginFailure on error', (done) => {
-    api.login.and.returnValue(throwError(() => new Error('fail')));
-
+  it('should dispatch loginFailure on invalid login', (done) => {
     actions$ = new ReplaySubject(1);
-    actions$.next(AuthActions.login({ username: 'u', password: 'p' }));
+    actions$.next(AuthActions.login({ username: 'bad', password: 'bad' }));
 
     effects.login$.subscribe((result) => {
-      expect(result.type).toBe('[Auth] Login Failure');
+      expect(result).toEqual(
+        AuthActions.loginFailure({ error: 'Identifiants incorrects.' })
+      );
       done();
     });
   });
+
 
   // -------------------------
   // REFRESH TOKEN SUCCESS

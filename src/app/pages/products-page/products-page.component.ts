@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'; 
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -44,6 +44,7 @@ import * as WishlistActions from '../../state/wishlist/wishlist.actions';
   ],
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsPageComponent {
   page = 1;

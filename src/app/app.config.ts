@@ -61,7 +61,7 @@ export const appConfig: ApplicationConfig = {
       reviews: reviewsReducer,
       checkout: checkoutReducer,
       orders: ordersReducer,
-     
+      
 
     }),
 

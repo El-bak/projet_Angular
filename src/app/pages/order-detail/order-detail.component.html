@@ -63,6 +63,38 @@
     <p *ngIf="order.items.length === 0">
       Aucun produit dans cette commande.
     </p>
+    <!-- PROMOTIONS -->
+<div *ngIf="order.promo as promo">
+  <mat-divider></mat-divider>
+
+  <h3>
+    <mat-icon>local_offer</mat-icon>
+    Promotion
+  </h3>
+
+  <p *ngIf="promo.appliedPromos.length > 0">
+    Code(s) appliqué(s) :
+    <strong>
+      <span *ngFor="let code of promo.appliedPromos; let last = last">
+        {{ code }}<span *ngIf="!last">, </span>
+      </span>
+    </strong>
+  </p>
+
+  <p *ngIf="promo.discount > 0">
+    Remise : −{{ promo.discount | number:'1.2-2' }} €
+  </p>
+
+  <p>
+    Livraison : {{ promo.shipping }} €
+  </p>
+
+  <p>
+    Taxes : {{ promo.taxes | number:'1.2-2' }} €
+  </p>
+</div>
+
+
 
     <mat-divider></mat-divider>
 

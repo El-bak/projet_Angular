@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -28,7 +28,8 @@ import { selectReviewsError } from '../../state/reviews/reviews.selectors';
   selector: 'app-product-details-page',
   imports: [CommonModule,RouterLink, MatButtonModule, MatIconModule, FormsModule, MatCardModule, MatProgressSpinnerModule, ReviewsListComponent],
   templateUrl: './product-detail-page.component.html',
-  styleUrls: ['./product-detail-page.component.css']
+  styleUrls: ['./product-detail-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetailsPageComponent implements OnInit {
   route = inject(ActivatedRoute);

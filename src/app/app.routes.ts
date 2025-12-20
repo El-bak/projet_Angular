@@ -10,6 +10,12 @@ import { ProfileComponent } from './pages/profile-page/profile.component';
 import { OrderDetailComponent } from './pages/order-detail/order-detail.component'
 import { cartNotEmptyGuard } from './shop/checkout/guards/checkout-cart.guard';
 import { checkoutAddressGuard } from './shop/checkout/guards/checkout-address.guard'; 
+import { provideState, provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+
+import { adminReducer } from './state/admin/admin.reducer';
+import { AdminEffects } from './state/admin/admin.effects';
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -109,6 +115,19 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: OrderDetailComponent
   },
+
+  {
+  path: 'app/admin/dashboard',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./pages/admin/admin-dashboard.component')
+      .then(m => m.AdminDashboardComponent),
+  providers: [
+    provideState('admin', adminReducer),
+    provideEffects(AdminEffects)
+  ]
+ },
+
 
   { path: '**', redirectTo: '/app', pathMatch: 'full' },
 ];

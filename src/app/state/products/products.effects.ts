@@ -3,26 +3,58 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ProductsActions from './products.actions';
 import { AppService } from '../../services/app.service';
 import { catchError, map, mergeMap, of } from 'rxjs';
-import { products } from '../../../mocks/data'; // ajoute l'import si ce n'est pas fait
+import { products } from '../../../mocks/data'; 
+import { withLatestFrom, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectProductsState } from './products.selectors';
+
 export class ProductsEffects {
   private actions$ = inject(Actions);
   private api = inject(AppService);
+  private store = inject(Store);
 
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.loadProducts),
-      mergeMap(({ page = 1, pageSize = 10, minRating, ordering }) =>
-        this.api.getProducts({ page, page_size: pageSize, min_rating: minRating, ordering }).pipe(
+      withLatestFrom(this.store.select(selectProductsState)),
+      switchMap(([action, state]) => {
+
+        const currentQuery = {
+          page: action.page ?? 1,
+          pageSize: action.pageSize ?? 10,
+          minRating: action.minRating,
+          ordering: action.ordering
+        };
+
+        const sameQuery =
+          state.lastQuery &&
+          JSON.stringify(state.lastQuery) === JSON.stringify(currentQuery);
+
+        // 👉 cache OK → on refetch en arrière-plan
+        return this.api.getProducts({
+          page: currentQuery.page,
+          page_size: currentQuery.pageSize,
+          min_rating: currentQuery.minRating,
+          ordering: currentQuery.ordering
+        }).pipe(
           map((res: any) =>
-            ProductsActions.loadProductsSuccess({ count: res.count, results: res.results })
+            ProductsActions.loadProductsSuccess({
+              count: res.count,
+              results: res.results
+            })
           ),
-          catchError((err) =>
-            of(ProductsActions.loadProductsFailure({ error: err?.message ?? 'Load products failed' }))
+          catchError(err =>
+            of(
+              ProductsActions.loadProductsFailure({
+                error: err?.message ?? 'Load products failed'
+              })
+            )
           )
-        )
-      )
+        );
+      })
     )
   );
+
   /*vient tout juste d'etre rajouté*/
 
 

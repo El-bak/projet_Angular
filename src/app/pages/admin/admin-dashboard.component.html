@@ -1,0 +1,36 @@
+<h1>Dashboard Admin</h1>
+
+<div *ngIf="loading$ | async">Chargement...</div>
+
+<div *ngIf="stats$ | async as stats">
+  <section>
+    <p>Utilisateurs : {{ stats.totalUsers }}</p>
+    <p>Commandes : {{ stats.totalOrders }}</p>
+    <p>Chiffre d'affaires : {{ stats.totalRevenue }} €</p>
+  </section>
+
+  <h2>Top Produits</h2>
+  <ul>
+    <li *ngFor="let p of stats.topProducts; trackBy: trackById">
+      {{ p.name }} — {{ p.sold }} vendus ({{ p.revenue }} €)
+    </li>
+  </ul>
+
+  <h2>Commandes récentes</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Total</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+    <tr *ngFor="let o of stats.recentOrders; trackBy: trackById">
+      <td>{{ o.id }}</td>
+      <td>{{ o.user }}</td>
+      <td>{{ o.total }} €</td>
+      <td>{{ o.createdAt }}</td>
+      <td>{{ o.status }}</td>
+    </tr>
+  </table>
+</div>

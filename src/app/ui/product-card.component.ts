@@ -19,8 +19,8 @@ import { ToastService } from '../services/toast.service';
       <h3>{{ name }}</h3>
       <p>Prix : {{ price }} €</p>
 
-      <button class="heart-btn" (click)="toggle()">
-      {{ isInWishlist ? '❤️' : '🤍' }}
+      <button class="heart-btn" aria-label="Ajouter à la wishlist" (click)="toggle()">
+      {{ isInWishlist ? '❤️' : '🤍' }} 
       </button>
 
       <div class="badge stock ok" *ngIf="stockStatus === 'ok'">En stock</div>
@@ -48,7 +48,8 @@ import { ToastService } from '../services/toast.service';
 </button>
 
   <button
-  class="add-btn"
+  class="add-btn" 
+  aria-label="Ajouter au panier"
   [disabled]="stockStatus === 'out'"
   (click)="add.emit(); $event.stopPropagation()">
   Ajouter au panier

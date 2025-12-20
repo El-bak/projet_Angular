@@ -22,3 +22,13 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   border: 1px solid #e6e1d5;
 }
+
+.snackbar-success {
+  background: #2e7d32;
+  color: white;
+}
+
+.snackbar-error {
+  background: #c62828;
+  color: white;
+}
